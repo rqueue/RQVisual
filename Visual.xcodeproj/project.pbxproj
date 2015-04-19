@@ -48,6 +48,7 @@
 		94560C371AE36687006AF9F0 /* VisualRowSpacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualRowSpacing.m; sourceTree = "<group>"; };
 		94560C381AE36687006AF9F0 /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
+		94EE64D11AE36E23009AF917 /* Visual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Visual.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +98,7 @@
 				94560C351AE36687006AF9F0 /* VisualMaster.m */,
 				94560C361AE36687006AF9F0 /* VisualRowSpacing.h */,
 				94560C371AE36687006AF9F0 /* VisualRowSpacing.m */,
+				94EE64D11AE36E23009AF917 /* Visual.h */,
 			);
 			path = Visual;
 			sourceTree = "<group>";
@@ -380,6 +382,7 @@
 				94560C2E1AE36669006AF9F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94560C2F1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "VisualTests" */ = {
 			isa = XCConfigurationList;
@@ -388,6 +391,7 @@
 				94560C311AE36669006AF9F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

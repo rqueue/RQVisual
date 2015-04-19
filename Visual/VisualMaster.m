@@ -11,6 +11,11 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
 
 + (UIView *)viewFromVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings {
     UIView *containerView = [[UIView alloc] init];
+    [self addSubviewsToView:containerView usingVisualFormats:visualFormats rowSpacingVisualFormat:rowSpacingVisualFormat variableBindings:variableBindings];
+    return containerView;
+}
+
++ (void)addSubviewsToView:(UIView *)containerView usingVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings {
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
 
     NSMutableArray *visualItemsRows = [NSMutableArray array];
@@ -190,8 +195,6 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
     }
 
     containerView.frame = CGRectMake(0.0, 0.0, width, height);
-
-    return containerView;
 }
 
 #pragma mark - Internal
@@ -201,7 +204,7 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
     NSString *rowLabel = [self rowLabelForVisualFormat:visualFormat];
 
     NSString *formatRemaining = [self visualFormatByRemovingRowLabel:visualFormat];
-    NSString *pattern = @"\\[(\\w+)(\\(([\\d=]+)\\))?\\]";
+    NSString *pattern = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?\\]";
     NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
 
     NSString *heightString = [self heightStringForVisualFormat:visualFormat];
@@ -257,7 +260,7 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
 }
 
 + (NSString *)heightStringForVisualFormat:(NSString *)visualFormat {
-    NSString *heightPattern = @"\\[.+\\](?:\\((\\d+)\\))?";
+    NSString *heightPattern = @"\\[.+\\](?:\\(([\\d\\.]+)\\))?";
     NSRegularExpression *heightRegex = [NSRegularExpression regularExpressionWithPattern:heightPattern options:0 error:nil];
     NSTextCheckingResult *heightMatch = [heightRegex firstMatchInString:visualFormat options:0 range:NSMakeRange(0, [visualFormat length])];
     if (heightMatch) {
