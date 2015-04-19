@@ -12,6 +12,7 @@
 		94560C3B1AE36687006AF9F0 /* VisualMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C351AE36687006AF9F0 /* VisualMaster.m */; };
 		94560C3C1AE36687006AF9F0 /* VisualRowSpacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C371AE36687006AF9F0 /* VisualRowSpacing.m */; };
 		94560C3D1AE36687006AF9F0 /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */; };
+		94A1627C1AE43217001C05FF /* NSString+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A1627B1AE43217001C05FF /* NSString+Parse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		94560C371AE36687006AF9F0 /* VisualRowSpacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualRowSpacing.m; sourceTree = "<group>"; };
 		94560C381AE36687006AF9F0 /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
+		94A1627A1AE43217001C05FF /* NSString+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Parse.h"; sourceTree = "<group>"; };
+		94A1627B1AE43217001C05FF /* NSString+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Parse.m"; sourceTree = "<group>"; };
 		94EE64D11AE36E23009AF917 /* Visual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Visual.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,6 +127,8 @@
 			children = (
 				94560C381AE36687006AF9F0 /* NSMutableArray+Stack.h */,
 				94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */,
+				94A1627A1AE43217001C05FF /* NSString+Parse.h */,
+				94A1627B1AE43217001C05FF /* NSString+Parse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94560C3D1AE36687006AF9F0 /* NSMutableArray+Stack.m in Sources */,
+				94A1627C1AE43217001C05FF /* NSString+Parse.m in Sources */,
 				94560C3C1AE36687006AF9F0 /* VisualRowSpacing.m in Sources */,
 				94560C3A1AE36687006AF9F0 /* VisualItem.m in Sources */,
 				94560C3B1AE36687006AF9F0 /* VisualMaster.m in Sources */,
