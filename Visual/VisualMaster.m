@@ -206,10 +206,10 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
                 if (visualItem.widthType == VisualItemDimensionTypeFixed && (i == 0 || previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
                     relation = NSLayoutRelationGreaterThanOrEqual;
                 }
-                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:visualItem.view
+                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:containerView
                                                                               attribute:NSLayoutAttributeTrailing
                                                                               relatedBy:relation
-                                                                                 toItem:containerView
+                                                                                 toItem:visualItem.view
                                                                               attribute:NSLayoutAttributeTrailing
                                                                              multiplier:1.0
                                                                                constant:0.0];
