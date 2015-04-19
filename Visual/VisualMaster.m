@@ -1,6 +1,6 @@
 #import "VisualMaster.h"
 #import "NSMutableArray+Stack.h"
-#import "VisualRowSpacing.h"
+#import "VisualSpacing.h"
 #import "VisualItem.h"
 #import "VisualFormatConverter.h"
 
@@ -28,7 +28,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     CGFloat width = 0;
 
     NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[VisualFormatConverter visualRowSpacingsForRowVisualFormat:rowSpacingVisualFormat]];
-    VisualRowSpacing *visualRowSpacing = [visualRowSpacings pop];
+    VisualSpacing *visualRowSpacing = [visualRowSpacings pop];
     for (NSUInteger row = 0; row < [visualItemsRows count]; row++) {
         if (row > 0) {
             height += kVisualMasterVerticalPadding;
@@ -68,7 +68,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 if (row == 0) {
                     // Constrain view to top
                     CGFloat constant = 0.0;
-                    if (visualRowSpacing && !visualRowSpacing.topRowLabel && [visualRowSpacing.bottomRowLabel isEqualToString:visualItem.rowLabel]) {
+                    if ([visualRowSpacing isSpacingForFirstItemLabel:nil secondItemLabel:visualItem.rowLabel]) {
                         constant = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     }
@@ -87,7 +87,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     UIView *aboveView = aboveVisualItem.view;
 
                     CGFloat constant = kVisualMasterVerticalPadding;
-                    if (visualRowSpacing && [visualRowSpacing.topRowLabel isEqualToString:aboveVisualItem.rowLabel] && [visualRowSpacing.bottomRowLabel isEqualToString:visualItem.rowLabel]) {
+                    if ([visualRowSpacing isSpacingForFirstItemLabel:aboveVisualItem.rowLabel secondItemLabel:visualItem.rowLabel]) {
                         constant = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     }
@@ -120,7 +120,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 // Constrain view to bottom
                 if (i == 0) {
                     CGFloat constant = 0.0;
-                    if (visualRowSpacing && [visualRowSpacing.topRowLabel isEqualToString:visualItem.rowLabel] && !visualRowSpacing.bottomRowLabel) {
+                    if ([visualRowSpacing isSpacingForFirstItemLabel:visualItem.rowLabel secondItemLabel:nil]) {
                         constant = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     }

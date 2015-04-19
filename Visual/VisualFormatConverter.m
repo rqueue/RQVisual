@@ -1,7 +1,7 @@
 #import "VisualFormatConverter.h"
 #import "NSString+Parse.h"
 #import "VisualItem.h"
-#import "VisualRowSpacing.h"
+#import "VisualSpacing.h"
 
 static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
 static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?([<>]+)?\\]";
@@ -55,9 +55,9 @@ static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+
             NSString *spacingString = [formatRemaining substringWithRange:spacingStringRange];
             NSString *bottomRowLabel = bottomRowLabelRange.length > 0 ? [formatRemaining substringWithRange:bottomRowLabelRange] : nil;
 
-            VisualRowSpacing *visualRowSpacing = [[VisualRowSpacing alloc] init];
-            visualRowSpacing.topRowLabel = topRowLabel;
-            visualRowSpacing.bottomRowLabel = bottomRowLabel;
+            VisualSpacing *visualRowSpacing = [[VisualSpacing alloc] init];
+            visualRowSpacing.firstItemLabel = topRowLabel;
+            visualRowSpacing.secondItemLabel = bottomRowLabel;
             visualRowSpacing.spacing = [spacingString floatValue];
             [visualRowSpacings addObject:visualRowSpacing];
 
