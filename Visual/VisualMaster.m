@@ -232,12 +232,12 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
         VisualItem *nextVisualItem = i + 1 < [visualItems count] ? visualItems[i + 1] : nil;
         switch (visualItem.horizontalAlignmentType) {
             case VisualItemAlignmentTypeLeft:
-                if (!nextVisualItem || nextVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeLeft) {
+                if (!nextVisualItem || (nextVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeLeft && nextVisualItem.widthType == VisualItemDimensionTypeFixed)) {
                     [visualItem.view.superview removeConstraint:visualItem.rightConstraint];
                 }
                 break;
             case VisualItemAlignmentTypeRight:
-                if (!previousVisualItem || previousVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeRight) {
+                if (!previousVisualItem || (previousVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeRight && previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
                     [visualItem.view.superview removeConstraint:visualItem.leftConstraint];
                 }
                 break;
