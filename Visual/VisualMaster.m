@@ -217,7 +217,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
         width = MAX(width, rowWidth);
 
         [self addEqualWidthConstraintsForVisualItems:visualItems containerView:containerView];
-        [self adjustHorizontalConstraintsForVisualItems:visualItems];
+        [self adjustHorizontalConstraintsForVisualItems:visualItems containerView:containerView];
     }
 
     containerView.frame = CGRectMake(0.0, 0.0, width, height);
@@ -225,26 +225,48 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
 #pragma mark - Internal
 
-+ (void)adjustHorizontalConstraintsForVisualItems:(NSArray *)visualItems {
++ (void)adjustHorizontalConstraintsForVisualItems:(NSArray *)visualItems containerView:(UIView *)containerView {
+    NSMutableArray *centeredItems = [NSMutableArray array];
     for (NSUInteger i = 0; i < [visualItems count]; i ++) {
         VisualItem *visualItem = visualItems[i];
         VisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
         VisualItem *nextVisualItem = i + 1 < [visualItems count] ? visualItems[i + 1] : nil;
-        switch (visualItem.horizontalAlignmentType) {
-            case VisualItemAlignmentTypeLeft:
-                if (!nextVisualItem || (nextVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeLeft && nextVisualItem.widthType == VisualItemDimensionTypeFixed)) {
-                    [visualItem.view.superview removeConstraint:visualItem.rightConstraint];
-                }
-                break;
-            case VisualItemAlignmentTypeRight:
-                if (!previousVisualItem || (previousVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeRight && previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
-                    [visualItem.view.superview removeConstraint:visualItem.leftConstraint];
-                }
-                break;
-            case VisualItemAlignmentTypeCenter:
-                break;
-            default:
-                break;
+
+        if (visualItem.horizontalAlignmentType == VisualItemAlignmentTypeLeft || visualItem.horizontalAlignmentType == VisualItemAlignmentTypeCenter) {
+            if (!nextVisualItem || (nextVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeLeft && nextVisualItem.widthType == VisualItemDimensionTypeFixed)) {
+                [containerView removeConstraint:visualItem.rightConstraint];
+            }
+        }
+
+        if (visualItem.horizontalAlignmentType == VisualItemAlignmentTypeRight || visualItem.horizontalAlignmentType == VisualItemAlignmentTypeCenter) {
+            if (!previousVisualItem || (previousVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeRight && previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
+                [containerView removeConstraint:visualItem.leftConstraint];
+            }
+        }
+
+        if (visualItem.horizontalAlignmentType == VisualItemAlignmentTypeCenter) {
+            [centeredItems addObject:visualItem];
+        }
+    }
+
+    if ([centeredItems count] > 0) {
+        CGFloat horizontalPadding = ([centeredItems count] - 1) * kVisualMasterHorizontalPadding;
+        CGFloat totalWidth = horizontalPadding;
+        for (VisualItem *visualItem in centeredItems) {
+            totalWidth += visualItem.width;
+        }
+
+        CGFloat offsetFromCenter = -totalWidth / 2.0;
+        for (NSUInteger i = 0; i < [centeredItems count]; i++) {
+            VisualItem *visualItem = centeredItems[i];
+            [containerView addConstraint:[NSLayoutConstraint constraintWithItem:visualItem.view
+                                                                      attribute:NSLayoutAttributeLeft
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:containerView
+                                                                      attribute:NSLayoutAttributeCenterX
+                                                                     multiplier:1.0
+                                                                       constant:offsetFromCenter]];
+            offsetFromCenter += visualItem.width + kVisualMasterHorizontalPadding;
         }
     }
 }
