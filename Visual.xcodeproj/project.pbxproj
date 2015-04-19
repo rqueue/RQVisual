@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		94560C1C1AE36668006AF9F0 /* Visual.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94560C1B1AE36668006AF9F0 /* Visual.h */; };
-		94560C1E1AE36668006AF9F0 /* Visual.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C1D1AE36668006AF9F0 /* Visual.m */; };
 		94560C241AE36669006AF9F0 /* libVisual.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94560C181AE36668006AF9F0 /* libVisual.a */; };
+		94560C3A1AE36687006AF9F0 /* VisualItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C331AE36687006AF9F0 /* VisualItem.m */; };
+		94560C3B1AE36687006AF9F0 /* VisualMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C351AE36687006AF9F0 /* VisualMaster.m */; };
+		94560C3C1AE36687006AF9F0 /* VisualRowSpacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C371AE36687006AF9F0 /* VisualRowSpacing.m */; };
+		94560C3D1AE36687006AF9F0 /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +31,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				94560C1C1AE36668006AF9F0 /* Visual.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,10 +38,16 @@
 
 /* Begin PBXFileReference section */
 		94560C181AE36668006AF9F0 /* libVisual.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVisual.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		94560C1B1AE36668006AF9F0 /* Visual.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Visual.h; sourceTree = "<group>"; };
-		94560C1D1AE36668006AF9F0 /* Visual.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Visual.m; sourceTree = "<group>"; };
 		94560C231AE36669006AF9F0 /* VisualTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisualTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		94560C291AE36669006AF9F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94560C321AE36687006AF9F0 /* VisualItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualItem.h; sourceTree = "<group>"; };
+		94560C331AE36687006AF9F0 /* VisualItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualItem.m; sourceTree = "<group>"; };
+		94560C341AE36687006AF9F0 /* VisualMaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualMaster.h; sourceTree = "<group>"; };
+		94560C351AE36687006AF9F0 /* VisualMaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualMaster.m; sourceTree = "<group>"; };
+		94560C361AE36687006AF9F0 /* VisualRowSpacing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualRowSpacing.h; sourceTree = "<group>"; };
+		94560C371AE36687006AF9F0 /* VisualRowSpacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualRowSpacing.m; sourceTree = "<group>"; };
+		94560C381AE36687006AF9F0 /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
+		94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +90,13 @@
 		94560C1A1AE36668006AF9F0 /* Visual */ = {
 			isa = PBXGroup;
 			children = (
-				94560C1B1AE36668006AF9F0 /* Visual.h */,
-				94560C1D1AE36668006AF9F0 /* Visual.m */,
+				94560C3E1AE366DB006AF9F0 /* Categories */,
+				94560C321AE36687006AF9F0 /* VisualItem.h */,
+				94560C331AE36687006AF9F0 /* VisualItem.m */,
+				94560C341AE36687006AF9F0 /* VisualMaster.h */,
+				94560C351AE36687006AF9F0 /* VisualMaster.m */,
+				94560C361AE36687006AF9F0 /* VisualRowSpacing.h */,
+				94560C371AE36687006AF9F0 /* VisualRowSpacing.m */,
 			);
 			path = Visual;
 			sourceTree = "<group>";
@@ -103,6 +115,15 @@
 				94560C291AE36669006AF9F0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94560C3E1AE366DB006AF9F0 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				94560C381AE36687006AF9F0 /* NSMutableArray+Stack.h */,
+				94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,7 +214,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94560C1E1AE36668006AF9F0 /* Visual.m in Sources */,
+				94560C3D1AE36687006AF9F0 /* NSMutableArray+Stack.m in Sources */,
+				94560C3C1AE36687006AF9F0 /* VisualRowSpacing.m in Sources */,
+				94560C3A1AE36687006AF9F0 /* VisualItem.m in Sources */,
+				94560C3B1AE36687006AF9F0 /* VisualMaster.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
