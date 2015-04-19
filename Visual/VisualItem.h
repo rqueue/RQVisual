@@ -17,5 +17,11 @@ typedef NS_ENUM(NSInteger, VisualItemDimensionType) {
 @property (nonatomic) VisualItemDimensionType widthType;
 @property (nonatomic) CGFloat height;
 @property (nonatomic) CGFloat width;
+@property (nonatomic) NSLayoutConstraint *topConstraint;
+@property (nonatomic) NSLayoutConstraint *bottomConstraint;
+@property (nonatomic) NSLayoutConstraint *leftConstraint;
+@property (nonatomic) NSLayoutConstraint *rightConstraint;
+@property (nonatomic) NSLayoutConstraint *widthConstraint;
+@property (nonatomic) NSLayoutConstraint *heightConstraint;
 
 @end

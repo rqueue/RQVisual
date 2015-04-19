@@ -57,13 +57,15 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
 
             // Vertical Constraints
             if (visualItem.heightType == VisualItemDimensionTypeFixed) {
-                [containerView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                          attribute:NSLayoutAttributeHeight
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:nil
-                                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                                         multiplier:1.0
-                                                                           constant:visualItem.height]];
+                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
+                                                                              attribute:NSLayoutAttributeHeight
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:nil
+                                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                                             multiplier:1.0
+                                                                               constant:visualItem.height];
+                [containerView addConstraint:constraint];
+                visualItem.heightConstraint = constraint;
             }
             
             if (row == 0) {
@@ -74,23 +76,27 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
                         constant = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     }
-                    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                              attribute:NSLayoutAttributeTop
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:containerView
-                                                                              attribute:NSLayoutAttributeTop
-                                                                             multiplier:1.0
-                                                                               constant:constant]];
+                    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
+                                                                                  attribute:NSLayoutAttributeTop
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:containerView
+                                                                                  attribute:NSLayoutAttributeTop
+                                                                                 multiplier:1.0
+                                                                                   constant:constant];
+                    [containerView addConstraint:constraint];
+                    visualItem.topConstraint = constraint;
                 } else {
                     VisualItem *firstVisualItem = visualItems[0];
                     UIView *firstView = firstVisualItem.view;
-                    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                              attribute:NSLayoutAttributeTop
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:firstView
-                                                                              attribute:NSLayoutAttributeTop
-                                                                             multiplier:1.0
-                                                                               constant:0.0]];
+                    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
+                                                                                  attribute:NSLayoutAttributeTop
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:firstView
+                                                                                  attribute:NSLayoutAttributeTop
+                                                                                 multiplier:1.0
+                                                                                   constant:0.0];
+                    [containerView addConstraint:constraint];
+                    visualItem.topConstraint = constraint;
                 }
             } else {
                 // Constrain view to a view above
@@ -102,13 +108,16 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
                     constant = visualRowSpacing.spacing;
                     visualRowSpacing = [visualRowSpacings pop];
                 }
-                [containerView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                          attribute:NSLayoutAttributeTop
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:aboveView
-                                                                          attribute:NSLayoutAttributeBottom
-                                                                         multiplier:1.0
-                                                                           constant:constant]];
+                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
+                                                                              attribute:NSLayoutAttributeTop
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:aboveView
+                                                                              attribute:NSLayoutAttributeBottom
+                                                                             multiplier:1.0
+                                                                               constant:constant];
+                [containerView addConstraint:constraint];
+                visualItem.topConstraint = constraint;
+                aboveVisualItem.bottomConstraint = constraint;
             }
 
             if (row == [visualItemsRows count] - 1) {
@@ -119,23 +128,27 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
                         constant = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     }
-                    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
-                                                                              attribute:NSLayoutAttributeBottom
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:view
-                                                                              attribute:NSLayoutAttributeBottom
-                                                                             multiplier:1.0
-                                                                               constant:constant]];
+                    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:containerView
+                                                                                  attribute:NSLayoutAttributeBottom
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:view
+                                                                                  attribute:NSLayoutAttributeBottom
+                                                                                 multiplier:1.0
+                                                                                   constant:constant];
+                    [containerView addConstraint:constraint];
+                    visualItem.bottomConstraint = constraint;
                 } else {
                     VisualItem *firstVisualItem = visualItems[0];
                     UIView *firstView = firstVisualItem.view;
-                    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                              attribute:NSLayoutAttributeBottom
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:firstView
-                                                                              attribute:NSLayoutAttributeBottom
-                                                                             multiplier:1.0
-                                                                               constant:0.0]];
+                    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
+                                                                                  attribute:NSLayoutAttributeBottom
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:firstView
+                                                                                  attribute:NSLayoutAttributeBottom
+                                                                                 multiplier:1.0
+                                                                                   constant:0.0];
+                    [containerView addConstraint:constraint];
+                    visualItem.bottomConstraint = constraint;
                 }
             }
 
@@ -147,38 +160,61 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
                 }
 
                 // Constrain view to left
-                NSString *visual = [NSString stringWithFormat:@"H:|-0-%@", visualItem.visualFormat];
+                NSString *visual = [NSString stringWithFormat:@"H:%@", visualItem.visualFormat];
                 [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:visual
-                                                                                      options:0
-                                                                                      metrics:nil
-                                                                                        views:@{visualItem.viewName: visualItem.view}]];
+                                                                                       options:0
+                                                                                       metrics:nil
+                                                                                         views:@{visualItem.viewName: visualItem.view}]];
+                NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:visualItem.view
+                                                                                  attribute:NSLayoutAttributeLeading
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:containerView
+                                                                                  attribute:NSLayoutAttributeLeading
+                                                                                 multiplier:1.0
+                                                                                   constant:0.0];
+                [containerView addConstraint:leftConstraint];
+                visualItem.leftConstraint = leftConstraint;
             } else {
                 // Constraint view to view to left
                 VisualItem *leftVisualItem = visualItems[i - 1];
                 UIView *leftView = leftVisualItem.view;
-                NSString *leftViewName = @"leftViewName";
-                NSDictionary *variables = @{visualItem.viewName: visualItem.view,
-                                            leftViewName: leftView};
-                NSString *visual = [NSString stringWithFormat:@"H:[%@]-(%f)-%@", leftViewName, kVisualMasterHorizontalPadding, visualItem.visualFormat];
-                [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:visual
-                                                                                      options:0
-                                                                                      metrics:nil
-                                                                                        views:variables]];
+                NSDictionary *variables = @{visualItem.viewName: visualItem.view};
+                NSString *visual = [NSString stringWithFormat:@"H:%@", visualItem.visualFormat];
+                NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:visual
+                                                                               options:0
+                                                                               metrics:nil
+                                                                                 views:variables];
+                [containerView addConstraints:constraints];
+                visualItem.widthConstraint = [constraints firstObject];
+                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:visualItem.view
+                                                                              attribute:NSLayoutAttributeLeading
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:leftView
+                                                                              attribute:NSLayoutAttributeTrailing
+                                                                             multiplier:1.0
+                                                                               constant:kVisualMasterHorizontalPadding];
+                [containerView addConstraint:constraint];
+                visualItem.leftConstraint = constraint;
+                leftVisualItem.rightConstraint = constraint;
                 rowWidth += kVisualMasterHorizontalPadding;
             }
 
             if (i == [visualItems count] - 1) {
                 // Constrain view to right
-                NSString *equality = @"";
+                NSLayoutRelation relation = NSLayoutRelationEqual;
                 VisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
                 if (visualItem.widthType == VisualItemDimensionTypeFixed && (i == 0 || previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
-                    equality = @">=";
+                    relation = NSLayoutRelationGreaterThanOrEqual;
                 }
-                NSString *visual = [NSString stringWithFormat:@"H:[%@]-(%@0)-|", visualItem.viewName, equality];
-                [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:visual
-                                                                                      options:0
-                                                                                      metrics:nil
-                                                                                        views:@{visualItem.viewName: visualItem.view}]];
+                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:visualItem.view
+                                                                              attribute:NSLayoutAttributeTrailing
+                                                                              relatedBy:relation
+                                                                                 toItem:containerView
+                                                                              attribute:NSLayoutAttributeTrailing
+                                                                             multiplier:1.0
+                                                                               constant:0.0];
+                [containerView addConstraint:constraint];
+                visualItem.rightConstraint = constraint;
             }
         }
 
