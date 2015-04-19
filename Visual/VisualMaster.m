@@ -169,7 +169,12 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"==";
 
             if (i == [visualItems count] - 1) {
                 // Constrain view to right
-                NSString *visual = [NSString stringWithFormat:@"H:[%@]-0-|", visualItem.viewName];
+                NSString *equality = @"";
+                VisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
+                if (visualItem.widthType == VisualItemDimensionTypeFixed && (i == 0 || previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
+                    equality = @">=";
+                }
+                NSString *visual = [NSString stringWithFormat:@"H:[%@]-(%@0)-|", visualItem.viewName, equality];
                 [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:visual
                                                                                       options:0
                                                                                       metrics:nil
