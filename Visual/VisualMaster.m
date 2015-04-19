@@ -63,10 +63,10 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 [containerView addConstraint:constraint];
                 visualItem.heightConstraint = constraint;
             }
-            
-            if (row == 0) {
-                // Constrain view to top
-                if (i == 0) {
+
+            if (i == 0) {
+                if (row == 0) {
+                    // Constrain view to top
                     CGFloat constant = 0.0;
                     if (visualRowSpacing && !visualRowSpacing.topRowLabel && [visualRowSpacing.bottomRowLabel isEqualToString:visualItem.rowLabel]) {
                         constant = visualRowSpacing.spacing;
@@ -82,38 +82,38 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     [containerView addConstraint:constraint];
                     visualItem.topConstraint = constraint;
                 } else {
-                    VisualItem *firstVisualItem = visualItems[0];
-                    UIView *firstView = firstVisualItem.view;
+                    // Constrain view to a view above
+                    VisualItem *aboveVisualItem = visualItemsRows[row - 1][0];
+                    UIView *aboveView = aboveVisualItem.view;
+
+                    CGFloat constant = kVisualMasterVerticalPadding;
+                    if (visualRowSpacing && [visualRowSpacing.topRowLabel isEqualToString:aboveVisualItem.rowLabel] && [visualRowSpacing.bottomRowLabel isEqualToString:visualItem.rowLabel]) {
+                        constant = visualRowSpacing.spacing;
+                        visualRowSpacing = [visualRowSpacings pop];
+                    }
                     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
                                                                                   attribute:NSLayoutAttributeTop
                                                                                   relatedBy:NSLayoutRelationEqual
-                                                                                     toItem:firstView
-                                                                                  attribute:NSLayoutAttributeTop
+                                                                                     toItem:aboveView
+                                                                                  attribute:NSLayoutAttributeBottom
                                                                                  multiplier:1.0
-                                                                                   constant:0.0];
+                                                                                   constant:constant];
                     [containerView addConstraint:constraint];
                     visualItem.topConstraint = constraint;
+                    aboveVisualItem.bottomConstraint = constraint;
                 }
             } else {
-                // Constrain view to a view above
-                VisualItem *aboveVisualItem = visualItemsRows[row - 1][0];
-                UIView *aboveView = aboveVisualItem.view;
-
-                CGFloat constant = kVisualMasterVerticalPadding;
-                if (visualRowSpacing && [visualRowSpacing.topRowLabel isEqualToString:aboveVisualItem.rowLabel] && [visualRowSpacing.bottomRowLabel isEqualToString:visualItem.rowLabel]) {
-                    constant = visualRowSpacing.spacing;
-                    visualRowSpacing = [visualRowSpacings pop];
-                }
+                VisualItem *firstVisualItem = visualItems[0];
+                UIView *firstView = firstVisualItem.view;
                 NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
                                                                               attribute:NSLayoutAttributeTop
                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:aboveView
-                                                                              attribute:NSLayoutAttributeBottom
+                                                                                 toItem:firstView
+                                                                              attribute:NSLayoutAttributeTop
                                                                              multiplier:1.0
-                                                                               constant:constant];
+                                                                               constant:0.0];
                 [containerView addConstraint:constraint];
                 visualItem.topConstraint = constraint;
-                aboveVisualItem.bottomConstraint = constraint;
             }
 
             if (row == [visualItemsRows count] - 1) {
