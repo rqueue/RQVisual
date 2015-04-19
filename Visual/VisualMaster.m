@@ -1,12 +1,11 @@
 #import "VisualMaster.h"
-#import "NSString+Parse.h"
 #import "NSMutableArray+Stack.h"
 #import "VisualRowSpacing.h"
 #import "VisualItem.h"
+#import "VisualFormatConverter.h"
 
 static CGFloat const kVisualMasterVerticalPadding = 10.0;
 static CGFloat const kVisualMasterHorizontalPadding = 10.0;
-static NSString * const kVisualMasterEqualWidthSyntax = @"(==)";
 
 @implementation VisualMaster
 
@@ -21,14 +20,14 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"(==)";
 
     NSMutableArray *visualItemsRows = [NSMutableArray array];
     for (NSString *visualFormat in visualFormats) {
-        NSArray *visualItems = [self visualItemsForVisualFormat:visualFormat variableBindings:variableBindings];
+        NSArray *visualItems = [VisualFormatConverter visualItemsForVisualFormat:visualFormat variableBindings:variableBindings];
         [visualItemsRows addObject:visualItems];
     }
 
     CGFloat height = 0;
     CGFloat width = 0;
 
-    NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[self visualRowSpacingsForRowVisualFormat:rowSpacingVisualFormat]];
+    NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[VisualFormatConverter visualRowSpacingsForRowVisualFormat:rowSpacingVisualFormat]];
     VisualRowSpacing *visualRowSpacing = [visualRowSpacings pop];
     for (NSUInteger row = 0; row < [visualItemsRows count]; row++) {
         if (row > 0) {
@@ -237,152 +236,6 @@ static NSString * const kVisualMasterEqualWidthSyntax = @"(==)";
     }
 
     containerView.frame = CGRectMake(0.0, 0.0, width, height);
-}
-
-#pragma mark - Internal
-
-+ (NSArray *)visualItemsForVisualFormat:(NSString *)visualFormat variableBindings:(NSDictionary *)variableBindings {
-    NSMutableArray *visualItems = [NSMutableArray array];
-    NSString *rowLabel = [self rowLabelForVisualFormat:visualFormat];
-
-    NSString *formatRemaining = [self visualFormatByRemovingRowLabel:visualFormat];
-    NSString *pattern = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?([<>]+)?\\]";
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
-
-    NSString *heightString = [self heightStringForVisualFormat:visualFormat];
-
-    while ([formatRemaining length] > 0) {
-        NSTextCheckingResult *match = [regex firstMatchInString:formatRemaining options:0 range:NSMakeRange(0, [formatRemaining length])];
-        if (match) {
-            NSString *viewString = [formatRemaining substringWithRange:[match rangeAtIndex:1]];
-            NSString *widthString = nil;
-            NSRange widthRange = [match rangeAtIndex:2];
-            if (widthRange.length > 0) {
-                widthString = [formatRemaining substringWithRange:[match rangeAtIndex:3]];
-            }
-            NSRange alignmentRange = [match rangeAtIndex:4];
-            if ([match rangeAtIndex:4].length > 0) {
-                NSLog(@"%@", [formatRemaining substringWithRange:[match rangeAtIndex:4]]);
-            }
-            VisualItem *visualItem = [[VisualItem alloc] init];
-            visualItem.rowLabel = rowLabel;
-            visualItem.visualFormat = [self visualFormatForVisualFormat:[formatRemaining substringWithRange:[match rangeAtIndex:0]] widthRange:widthRange alignmentRange:alignmentRange];
-            visualItem.viewName = viewString;
-            visualItem.width = [widthString floatValue];
-            visualItem.widthType = [self visualItemDimensionTypeForWidthString:widthString];
-            visualItem.height = [heightString floatValue];
-            visualItem.heightType = heightString ? VisualItemDimensionTypeFixed : VisualItemDimensionTypeDynamic;
-            visualItem.view = [variableBindings objectForKey:viewString];
-            [visualItems addObject:visualItem];
-            formatRemaining = [formatRemaining substringFromIndex:match.range.location + match.range.length];
-        } else {
-            break;
-        }
-    }
-
-    return [visualItems copy];
-}
-
-+ (VisualItemDimensionType)visualItemDimensionTypeForWidthString:(NSString *)widthString {
-    if (!widthString) {
-        return VisualItemDimensionTypeDynamic;
-    } else if ([widthString isEqualToString:kVisualMasterEqualWidthSyntax]) {
-        return VisualItemDimensionTypeEqual;
-    } else {
-        return VisualItemDimensionTypeFixed;
-    }
-}
-
-+ (NSString *)visualFormatForVisualFormat:(NSString *)visualFormat widthRange:(NSRange)widthRange alignmentRange:(NSRange)alignmentRange {
-    NSString *visualString = visualFormat;
-    if (alignmentRange.length > 0) {
-        visualString = [visualString substringByRemovingRange:alignmentRange];
-    }
-
-    NSString *widthString = widthRange.length > 0 ? [visualFormat substringWithRange:widthRange] : nil;
-    if ([widthString isEqualToString:kVisualMasterEqualWidthSyntax]) {
-        return [visualString substringByRemovingRange:widthRange];
-    } else {
-        return visualString;
-    }
-}
-
-+ (NSString *)heightStringForVisualFormat:(NSString *)visualFormat {
-    NSString *heightPattern = @"\\[.+\\](?:\\(([\\d\\.]+)\\))?";
-    NSRegularExpression *heightRegex = [NSRegularExpression regularExpressionWithPattern:heightPattern options:0 error:nil];
-    NSTextCheckingResult *heightMatch = [heightRegex firstMatchInString:visualFormat options:0 range:NSMakeRange(0, [visualFormat length])];
-    if (heightMatch) {
-        NSRange heightValueRange = [heightMatch rangeAtIndex:1];
-        if (heightValueRange.length > 0) {
-            return [visualFormat substringWithRange:[heightMatch rangeAtIndex:1]];
-        }
-    }
-    return nil;
-}
-
-+ (NSString *)rowLabelForVisualFormat:(NSString *)visualFormat {
-    NSTextCheckingResult *match = [self rowLabelMatchForVisualFormat:visualFormat];
-    if (match) {
-        NSRange rowLabelRange = [match rangeAtIndex:1];
-        if (rowLabelRange.length > 0) {
-            return [visualFormat substringWithRange:rowLabelRange];
-        }
-    }
-    return nil;
-}
-
-+ (NSString *)visualFormatByRemovingRowLabel:(NSString *)visualFormat {
-    NSTextCheckingResult *match = [self rowLabelMatchForVisualFormat:visualFormat];
-    if (match) {
-        NSRange range = [match rangeAtIndex:0];
-        return [visualFormat substringFromIndex:range.location + range.length];
-    }
-    return visualFormat;
-}
-
-+ (NSTextCheckingResult *)rowLabelMatchForVisualFormat:(NSString *)visualFormat {
-    NSString *pattern = @"^(\\w+):";
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
-    NSTextCheckingResult *match = [regex firstMatchInString:visualFormat options:0 range:NSMakeRange(0, [visualFormat length])];
-    return match;
-}
-
-+ (NSArray *)visualRowSpacingsForRowVisualFormat:(NSString *)rowVisualFormat {
-    NSMutableArray *visualRowSpacings = [NSMutableArray array];
-    NSString *pattern = @"(?:\\||(?:\\[(\\w+)\\]))-(?:(?:(\\d+))|(?:\\((\\d+)\\)))-(?:\\||(?:\\[(\\w+)\\]))";
-    NSString *formatRemaining = [rowVisualFormat copy];
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
-
-    while ([formatRemaining length] > 0) {
-        NSTextCheckingResult *match = [regex firstMatchInString:formatRemaining options:0 range:NSMakeRange(0, [formatRemaining length])];
-        if (match) {
-            NSRange topRowLabelRange = [match rangeAtIndex:1];
-            NSRange spacingStringRangeWithoutParen = [match rangeAtIndex:2];
-            NSRange spacingStringRangeWithParen = [match rangeAtIndex:3];
-            NSRange spacingStringRange = spacingStringRangeWithoutParen.length > 0 ? spacingStringRangeWithoutParen : spacingStringRangeWithParen;
-            NSRange bottomRowLabelRange = [match rangeAtIndex:4];
-
-            NSString *topRowLabel = topRowLabelRange.length > 0 ? [formatRemaining substringWithRange:topRowLabelRange] : nil;
-            NSString *spacingString = [formatRemaining substringWithRange:spacingStringRange];
-            NSString *bottomRowLabel = bottomRowLabelRange.length > 0 ? [formatRemaining substringWithRange:bottomRowLabelRange] : nil;
-
-            VisualRowSpacing *visualRowSpacing = [[VisualRowSpacing alloc] init];
-            visualRowSpacing.topRowLabel = topRowLabel;
-            visualRowSpacing.bottomRowLabel = bottomRowLabel;
-            visualRowSpacing.spacing = [spacingString floatValue];
-            [visualRowSpacings addObject:visualRowSpacing];
-
-            if (bottomRowLabelRange.length > 0) {
-                formatRemaining = [formatRemaining substringFromIndex:bottomRowLabelRange.location - 1];
-            } else {
-                break;
-            }
-        } else {
-            break;
-        }
-    }
-
-    return [visualRowSpacings copy];
 }
 
 @end
