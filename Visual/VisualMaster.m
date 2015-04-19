@@ -36,16 +36,12 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
         CGFloat rowWidth = 0;
         NSArray *visualItems = visualItemsRows[row];
-        NSMutableArray *visualItemsWithEqualWidths = [NSMutableArray array];
         for (NSUInteger i = 0; i < [visualItems count]; i++) {
             VisualItem *visualItem = visualItems[i];
 
             switch (visualItem.widthType) {
                 case VisualItemDimensionTypeFixed:
                     rowWidth += visualItem.width;
-                    break;
-                case VisualItemDimensionTypeEqual:
-                    [visualItemsWithEqualWidths addObject:visualItem];
                     break;
                 default:
                     break;
@@ -220,22 +216,60 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
         width = MAX(width, rowWidth);
 
-        if ([visualItemsWithEqualWidths count] > 1) {
-            for (NSUInteger k = 1; k < [visualItemsWithEqualWidths count]; k++) {
-                VisualItem *previousVisualItem = visualItemsWithEqualWidths[k - 1];
-                VisualItem *currentVisualItem = visualItemsWithEqualWidths[k];
-                [containerView addConstraint:[NSLayoutConstraint constraintWithItem:previousVisualItem.view
-                                                                          attribute:NSLayoutAttributeWidth
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:currentVisualItem.view
-                                                                          attribute:NSLayoutAttributeWidth
-                                                                         multiplier:1.0
-                                                                           constant:0.0]];
-            }
-        }
+        [self addEqualWidthConstraintsForVisualItems:visualItems containerView:containerView];
+        [self adjustHorizontalConstraintsForVisualItems:visualItems];
     }
 
     containerView.frame = CGRectMake(0.0, 0.0, width, height);
+}
+
+#pragma mark - Internal
+
++ (void)adjustHorizontalConstraintsForVisualItems:(NSArray *)visualItems {
+    for (NSUInteger i = 0; i < [visualItems count]; i ++) {
+        VisualItem *visualItem = visualItems[i];
+        VisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
+        VisualItem *nextVisualItem = i + 1 < [visualItems count] ? visualItems[i + 1] : nil;
+        switch (visualItem.horizontalAlignmentType) {
+            case VisualItemAlignmentTypeLeft:
+                if (!nextVisualItem || nextVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeLeft) {
+                    [visualItem.view.superview removeConstraint:visualItem.rightConstraint];
+                }
+                break;
+            case VisualItemAlignmentTypeRight:
+                if (!previousVisualItem || previousVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeRight) {
+                    [visualItem.view.superview removeConstraint:visualItem.leftConstraint];
+                }
+                break;
+            case VisualItemAlignmentTypeCenter:
+                break;
+            default:
+                break;
+        }
+    }
+}
+
++ (void)addEqualWidthConstraintsForVisualItems:(NSArray *)visualItems containerView:(UIView *)containerView {
+    NSMutableArray *visualItemsWithEqualWidths = [NSMutableArray array];
+    for (VisualItem *visualItem in visualItems) {
+        if (visualItem.widthType == VisualItemDimensionTypeEqual) {
+            [visualItemsWithEqualWidths addObject:visualItem];
+        }
+    }
+
+    if ([visualItemsWithEqualWidths count] > 1) {
+        for (NSUInteger k = 1; k < [visualItemsWithEqualWidths count]; k++) {
+            VisualItem *previousVisualItem = visualItemsWithEqualWidths[k - 1];
+            VisualItem *currentVisualItem = visualItemsWithEqualWidths[k];
+            [containerView addConstraint:[NSLayoutConstraint constraintWithItem:previousVisualItem.view
+                                                                      attribute:NSLayoutAttributeWidth
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:currentVisualItem.view
+                                                                      attribute:NSLayoutAttributeWidth
+                                                                     multiplier:1.0
+                                                                       constant:0.0]];
+        }
+    }
 }
 
 @end

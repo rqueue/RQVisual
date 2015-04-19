@@ -7,6 +7,13 @@ typedef NS_ENUM(NSInteger, VisualItemDimensionType) {
     VisualItemDimensionTypeEqual,
 };
 
+typedef NS_ENUM(NSInteger, VisualItemAlignmentType) {
+    VisualItemAlignmentTypeNone,
+    VisualItemAlignmentTypeLeft,
+    VisualItemAlignmentTypeRight,
+    VisualItemAlignmentTypeCenter,
+};
+
 @interface VisualItem : NSObject
 
 @property (nonatomic, copy) NSString *visualFormat;
@@ -23,5 +30,6 @@ typedef NS_ENUM(NSInteger, VisualItemDimensionType) {
 @property (nonatomic) NSLayoutConstraint *rightConstraint;
 @property (nonatomic) NSLayoutConstraint *widthConstraint;
 @property (nonatomic) NSLayoutConstraint *heightConstraint;
+@property (nonatomic) VisualItemAlignmentType horizontalAlignmentType;
 
 @end

@@ -4,6 +4,7 @@
 #import "VisualRowSpacing.h"
 
 static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
+static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?([<>]+)?\\]";
 
 @implementation VisualFormatConverter
 
@@ -14,31 +15,17 @@ static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
     NSString *rowLabel = [self rowLabelForVisualFormat:visualFormat];
 
     NSString *formatRemaining = [self visualFormatByRemovingRowLabel:visualFormat];
-    NSString *pattern = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?([<>]+)?\\]";
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:kVisualFormatConverterVisualItemVisualFormat options:NSRegularExpressionCaseInsensitive error:nil];
 
     NSString *heightString = [self heightStringForVisualFormat:visualFormat];
 
     while ([formatRemaining length] > 0) {
         NSTextCheckingResult *match = [regex firstMatchInString:formatRemaining options:0 range:NSMakeRange(0, [formatRemaining length])];
         if (match) {
-            NSString *viewString = [formatRemaining substringWithRange:[match rangeAtIndex:1]];
-            NSString *widthString = nil;
-            NSRange widthRange = [match rangeAtIndex:2];
-            if (widthRange.length > 0) {
-                widthString = [formatRemaining substringWithRange:[match rangeAtIndex:3]];
-            }
-            NSRange alignmentRange = [match rangeAtIndex:4];
-
-            VisualItem *visualItem = [[VisualItem alloc] init];
-            visualItem.rowLabel = rowLabel;
-            visualItem.visualFormat = [self visualFormatForVisualFormat:[formatRemaining substringWithRange:[match rangeAtIndex:0]] widthRange:widthRange alignmentRange:alignmentRange];
-            visualItem.viewName = viewString;
-            visualItem.width = [widthString floatValue];
-            visualItem.widthType = [self visualItemDimensionTypeForWidthString:widthString];
-            visualItem.height = [heightString floatValue];
-            visualItem.heightType = heightString ? VisualItemDimensionTypeFixed : VisualItemDimensionTypeDynamic;
-            visualItem.view = [variableBindings objectForKey:viewString];
+            VisualItem *visualItem = [self visualItemForVisualItemVisualFormat:[formatRemaining substringWithRange:[match rangeAtIndex:0]]
+                                                              variableBindings:variableBindings
+                                                                  heightString:heightString
+                                                                      rowLabel:rowLabel];
             [visualItems addObject:visualItem];
             formatRemaining = [formatRemaining substringFromIndex:match.range.location + match.range.length];
         } else {
@@ -89,6 +76,39 @@ static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
 
 #pragma mark - Internal
 
++ (VisualItem *)visualItemForVisualItemVisualFormat:(NSString *)visualItemVisualFormat
+                                   variableBindings:(NSDictionary *)variableBindings
+                                       heightString:(NSString *)heightString
+                                           rowLabel:(NSString *)rowLabel {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kVisualFormatConverterVisualItemVisualFormat options:0 error:nil];
+    NSTextCheckingResult *match = [regex firstMatchInString:visualItemVisualFormat options:0 range:NSMakeRange(0, [visualItemVisualFormat length])];
+    NSString *viewString = [visualItemVisualFormat substringWithRange:[match rangeAtIndex:1]];
+
+    NSString *widthString = nil;
+    NSRange widthRange = [match rangeAtIndex:2];
+    if (widthRange.length > 0) {
+        widthString = [visualItemVisualFormat substringWithRange:[match rangeAtIndex:3]];
+    }
+
+    NSString *alignmentString = nil;
+    NSRange alignmentRange = [match rangeAtIndex:4];
+    if (alignmentRange.length > 0) {
+        alignmentString = [visualItemVisualFormat substringWithRange:alignmentRange];
+    }
+
+    VisualItem *visualItem = [[VisualItem alloc] init];
+    visualItem.rowLabel = rowLabel;
+    visualItem.visualFormat = [self visualFormatForVisualFormat:[visualItemVisualFormat substringWithRange:[match rangeAtIndex:0]] widthRange:widthRange alignmentRange:alignmentRange];
+    visualItem.viewName = viewString;
+    visualItem.width = [widthString floatValue];
+    visualItem.widthType = [self visualItemDimensionTypeForWidthString:widthString];
+    visualItem.height = [heightString floatValue];
+    visualItem.heightType = heightString ? VisualItemDimensionTypeFixed : VisualItemDimensionTypeDynamic;
+    visualItem.view = [variableBindings objectForKey:viewString];
+    visualItem.horizontalAlignmentType = [self visualItemAlignmentTypeForAlignmentString:alignmentString];
+    return visualItem;
+}
+
 + (VisualItemDimensionType)visualItemDimensionTypeForWidthString:(NSString *)widthString {
     if (!widthString) {
         return VisualItemDimensionTypeDynamic;
@@ -96,6 +116,18 @@ static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
         return VisualItemDimensionTypeEqual;
     } else {
         return VisualItemDimensionTypeFixed;
+    }
+}
+
++ (VisualItemAlignmentType)visualItemAlignmentTypeForAlignmentString:(NSString *)alignmentString {
+    if ([alignmentString isEqualToString:@"<"]) {
+        return VisualItemAlignmentTypeLeft;
+    } else if ([alignmentString isEqualToString:@">"]) {
+        return VisualItemAlignmentTypeRight;
+    } else if ([alignmentString isEqualToString:@"<>"]) {
+        return VisualItemAlignmentTypeCenter;
+    } else {
+        return VisualItemAlignmentTypeNone;
     }
 }
 
