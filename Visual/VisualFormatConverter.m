@@ -112,7 +112,7 @@ static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+
 + (VisualItemDimensionType)visualItemDimensionTypeForWidthString:(NSString *)widthString {
     if (!widthString) {
         return VisualItemDimensionTypeDynamic;
-    } else if ([widthString isEqualToString:kVisualFormatConverterEqualWidthSyntax]) {
+    } else if ([widthString isEqualToString:@"=="]) {
         return VisualItemDimensionTypeEqual;
     } else {
         return VisualItemDimensionTypeFixed;
