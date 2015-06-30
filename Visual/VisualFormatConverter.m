@@ -96,6 +96,12 @@ static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+
         alignmentString = [visualItemVisualFormat substringWithRange:alignmentRange];
     }
 
+    UIView *view = [variableBindings objectForKey:viewString];
+    if ([viewString isEqualToString:@"_spacer"]) {
+        view = [UIView new];
+        view.backgroundColor = [UIColor clearColor];
+    }
+
     VisualItem *visualItem = [[VisualItem alloc] init];
     visualItem.rowLabel = rowLabel;
     visualItem.visualFormat = [self visualFormatForVisualFormat:[visualItemVisualFormat substringWithRange:[match rangeAtIndex:0]] widthRange:widthRange alignmentRange:alignmentRange];
@@ -104,7 +110,7 @@ static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+
     visualItem.widthType = [self visualItemDimensionTypeForWidthString:widthString];
     visualItem.height = [heightString floatValue];
     visualItem.heightType = heightString ? VisualItemDimensionTypeFixed : VisualItemDimensionTypeDynamic;
-    visualItem.view = [variableBindings objectForKey:viewString];
+    visualItem.view = view;
     visualItem.horizontalAlignmentType = [self visualItemAlignmentTypeForAlignmentString:alignmentString];
     return visualItem;
 }
