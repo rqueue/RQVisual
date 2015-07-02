@@ -16,7 +16,6 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 }
 
 + (void)addSubviewsToView:(UIView *)containerView usingVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings {
-    containerView.translatesAutoresizingMaskIntoConstraints = NO;
 
     NSMutableArray *visualItemsRows = [NSMutableArray array];
     for (NSString *visualFormat in visualFormats) {
