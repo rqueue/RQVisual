@@ -30,8 +30,9 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[VisualFormatConverter visualRowSpacingsForRowVisualFormat:rowSpacingVisualFormat]];
     VisualSpacing *visualRowSpacing = [visualRowSpacings pop];
     for (NSUInteger row = 0; row < [visualItemsRows count]; row++) {
+        CGFloat rowSpacingHeight = 0;
         if (row > 0) {
-            height += kVisualMasterVerticalPadding;
+            rowSpacingHeight = kVisualMasterVerticalPadding;
         }
 
         CGFloat rowWidth = 0;
@@ -70,6 +71,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     CGFloat constant = 0.0;
                     if ([visualRowSpacing isSpacingForFirstItemLabel:nil secondItemLabel:visualItem.rowLabel]) {
                         constant = visualRowSpacing.spacing;
+                        rowSpacingHeight = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     }
                     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
@@ -89,6 +91,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     CGFloat constant = kVisualMasterVerticalPadding;
                     if ([visualRowSpacing isSpacingForFirstItemLabel:aboveVisualItem.rowLabel secondItemLabel:visualItem.rowLabel]) {
                         constant = visualRowSpacing.spacing;
+                        rowSpacingHeight = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     }
                     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
@@ -123,6 +126,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     NSLayoutRelation relation = NSLayoutRelationEqual;
                     if ([visualRowSpacing isSpacingForFirstItemLabel:visualItem.rowLabel secondItemLabel:nil]) {
                         constant = visualRowSpacing.spacing;
+                        rowSpacingHeight = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     } else if (visualItem.heightType == VisualItemDimensionTypeFixed) {
                         relation = NSLayoutRelationGreaterThanOrEqual;
@@ -218,6 +222,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
         }
 
         width = MAX(width, rowWidth);
+        height += rowSpacingHeight;
 
         [self addEqualWidthConstraintsForVisualItems:visualItems containerView:containerView];
         [self adjustHorizontalConstraintsForVisualItems:visualItems containerView:containerView];
