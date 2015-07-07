@@ -128,7 +128,9 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                         rowSpacingHeight = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     } else if (visualItem.heightType == VisualItemDimensionTypeFixed) {
-                        relation = NSLayoutRelationGreaterThanOrEqual;
+                        if (row == 0 || ((VisualItem *)visualItemsRows[row - 1][0]).heightType != VisualItemDimensionTypeDynamic) {
+                            relation = NSLayoutRelationGreaterThanOrEqual;
+                        }
                     }
                     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:containerView
                                                                                   attribute:NSLayoutAttributeBottom
