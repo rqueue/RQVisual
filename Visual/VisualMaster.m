@@ -7,7 +7,37 @@
 static CGFloat const kVisualMasterVerticalPadding = 10.0;
 static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
+@interface VisualMaster()
+
+@property (nonatomic) CGFloat defaultVerticalPadding;
+@property (nonatomic) CGFloat defaultHorizontalPadding;
+
+@end
+
 @implementation VisualMaster
+
++ (instancetype)sharedInstance {
+    static VisualMaster *visualMaster = nil;
+    static dispatch_once_t once;
+
+    dispatch_once(&once, ^{
+        visualMaster = [[VisualMaster alloc] init];
+        visualMaster.defaultVerticalPadding = kVisualMasterVerticalPadding;
+        visualMaster.defaultHorizontalPadding = kVisualMasterHorizontalPadding;
+    });
+
+    return visualMaster;
+}
+
++ (void)setDefaultVerticalPaddig:(CGFloat)verticalPadding {
+    VisualMaster *vm = [VisualMaster sharedInstance];
+    vm.defaultVerticalPadding = verticalPadding;
+}
+
++ (void)setDefaultHorizontalPadding:(CGFloat)horizontalPadding {
+    VisualMaster *vm = [VisualMaster sharedInstance];
+    vm.defaultHorizontalPadding = horizontalPadding;
+}
 
 + (UIView *)viewFromVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings {
     UIView *containerView = [[UIView alloc] init];
@@ -29,9 +59,12 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[VisualFormatConverter visualRowSpacingsForRowVisualFormat:rowSpacingVisualFormat]];
     VisualSpacing *visualRowSpacing = [visualRowSpacings pop];
     for (NSUInteger row = 0; row < [visualItemsRows count]; row++) {
+        CGFloat defaultHorizontalPadding = [VisualMaster sharedInstance].defaultHorizontalPadding;
+        CGFloat defaultVerticalPadding = [VisualMaster sharedInstance].defaultVerticalPadding;
+
         CGFloat rowSpacingHeight = 0;
         if (row > 0) {
-            rowSpacingHeight = kVisualMasterVerticalPadding;
+            rowSpacingHeight = defaultVerticalPadding;
         }
 
         CGFloat rowWidth = 0;
@@ -87,7 +120,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     VisualItem *aboveVisualItem = visualItemsRows[row - 1][0];
                     UIView *aboveView = aboveVisualItem.view;
 
-                    CGFloat constant = kVisualMasterVerticalPadding;
+                    CGFloat constant = defaultVerticalPadding;
                     if ([visualRowSpacing isSpacingForFirstItemLabel:aboveVisualItem.rowLabel secondItemLabel:visualItem.rowLabel]) {
                         constant = visualRowSpacing.spacing;
                         rowSpacingHeight = visualRowSpacing.spacing;
@@ -196,11 +229,11 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                                                                                  toItem:leftView
                                                                               attribute:NSLayoutAttributeTrailing
                                                                              multiplier:1.0
-                                                                               constant:kVisualMasterHorizontalPadding];
+                                                                               constant:defaultHorizontalPadding];
                 [containerView addConstraint:constraint];
                 visualItem.leftConstraint = constraint;
                 leftVisualItem.rightConstraint = constraint;
-                rowWidth += kVisualMasterHorizontalPadding;
+                rowWidth += defaultHorizontalPadding;
             }
 
             if (i == [visualItems count] - 1) {
@@ -259,7 +292,8 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     }
 
     if ([centeredItems count] > 0) {
-        CGFloat horizontalPadding = ([centeredItems count] - 1) * kVisualMasterHorizontalPadding;
+        CGFloat defaultHorizontalPadding = [VisualMaster sharedInstance].defaultHorizontalPadding;
+        CGFloat horizontalPadding = ([centeredItems count] - 1) * defaultHorizontalPadding;
         CGFloat totalWidth = horizontalPadding;
         for (VisualItem *visualItem in centeredItems) {
             totalWidth += visualItem.width;
@@ -275,7 +309,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                                                                       attribute:NSLayoutAttributeCenterX
                                                                      multiplier:1.0
                                                                        constant:offsetFromCenter]];
-            offsetFromCenter += visualItem.width + kVisualMasterHorizontalPadding;
+            offsetFromCenter += visualItem.width + defaultHorizontalPadding;
         }
     }
 }
