@@ -1,0 +1,91 @@
+# Visual
+
+**Disclaimer:** Still in development
+
+Visual is a tool for easily laying out views in code using visual formats similar to Auto Layout's Visual Format Language. All of the views are laid out using Auto Layout constraints so you get all the benefits of Auto Layout without the verbose NSLayoutConstraint syntax.
+
+## Why not just use Auto Layout's Visual Format Language?
+
+Auto Layout's Visual Format Language certaintly cuts down on the lines of code needed to add multiple constraints to a view, but the motivation behind Visual was to simplify this even more. With Visual it's possible to layout your entire view with a single method call (depending on how complicated your view is of course). Implicit padding between views is also added and can be optionally overidden or configured to a specific value. This enables a "standard" spacing to be applied between views automatically without having to specify it in your visual format.
+
+## Examples
+
+For all of the following examples you can either of the following methods:
+```
++ (UIView *)viewFromVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings;
++ (void)addSubviewsToView:(UIView *)containerView usingVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings;
+``` 
+The first method will return your views in a new container view and the second method will add your views to an existing view.
+
+### Ex. 1
+
+Suppose I want to create a view with a `UIImageView` with a fixed width of 50.0 on the left and a `UILabel` of dynamic width to its right. Something like this:
+```
+[imageView][       label        ]
+```
+Using Visual we would do:
+```
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][label]"]
+                                     rowSpacingVisualFormat:nil
+                                           variableBindings:@{ @"imageView": imageView,
+                                                               @"label":     label }];
+
+```
+This looks very similar to just using NSLayoutConstraint's `+ constraintsWithVisualFormat:options:metrics:views:` method, however here there have been a few implicit horizontal and vertical constraints added:
+
+* The horizontal padding between the `imageView` and `label` has been set to `10.0` (the default horizontal padding).
+* Both views have been constrained to the top and bottom edges of the view created.
+* The `imageView` has been constrained to the left edge of the view created.
+* The `label` has been constrained to the right edge of the view created.
+
+If the `containerView` is resized, the `label` will stretch in width and both the `imageView` and `label` will stretch in height. 
+
+If we wanted to fix the height of these views, we would simply add a specific height to the end of the visual format:
+```
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][label](60)"]
+                                     rowSpacingVisualFormat:nil
+                                           variableBindings:@{ @"imageView": imageView,
+                                                               @"label":     label }];
+
+```
+Now, both the `imageView` and `label` will be constrained to a height of `60`.
+
+One thing to note is that the `containerView` here will be returned with a frame size of its minimum possible size without breaking the constraints. For the above example this means `50 x 60` since the label has a dynamic width and is allowed to have a width of `0.0`.
+
+## Ex. 2
+
+Making views with multiple rows is just as easy. Suppose we want the same view as in Ex. 1, but below it we want a `UITextView`.
+```
+[imageView][       label        ]
+[            textView           ]
+```
+With Visual this would be:
+
+```
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][label](60)",
+                                                              @"[textView]"]
+                                     rowSpacingVisualFormat:nil
+                                           variableBindings:@{ @"imageView": imageView,
+                                                               @"label":     label,
+                                                               @"textView":  textView }];
+
+```
+Here we have all of the same implicit constraints added horizontally and vertically as in Ex. 1, except now there is also vertical padding between the `textView` and the `imageView`/`label`. The default vertical padding is `10.0` as well.
+
+If we want to customize the spacing between rows, we could do the following:
+```
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"r1:[imageView(50)][label](60)",
+                                                              @"r2:[textView]"]
+                                     rowSpacingVisualFormat:@"|-5-[r1]-5-[r2]-15-|"
+                                           variableBindings:@{ @"imageView": imageView,
+                                                               @"label":     label,
+                                                               @"textView":  textView }];
+
+```
+Here the vertical spacing will be constructed as you would expect:
+
+* The first row (`r1`) will be `5.0` points from its superview's top.
+* The first row and second row (`r2`) will be `5.0` points apart.
+* The second row will be `15.0` points from the bototm of its superview's bottom.
+
+To specify custom padding between rows, you must add labels to the rows by preceding the visual format string with a name for that row and a colon. The name can be anything as long as it matches the variables in the `rowSpacingVisualFormat`. The `rowSpacingVisualFormat` string is composed in the same way as Auto Layout's Visual Format Language except instead of placing views between square brackets you place row labels.
