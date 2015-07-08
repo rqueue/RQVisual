@@ -21,7 +21,7 @@ The first method will return your views in a new container view and the second m
 
 Suppose I want to create a view with a `UIImageView` with a fixed width of 50.0 on the left and a `UILabel` of dynamic width to its right. Something like this:
 ```
-[imageView][       label        ]
+|[imageView][       label        ]|
 ```
 Using Visual we would do:
 ```
@@ -54,10 +54,53 @@ One thing to note is that the `containerView` here will be returned with a frame
 
 ## Ex. 2
 
+Specfying that views in the same row should have equal widths can be done too:
+```
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(==)][label(==)](60)"]
+                                     rowSpacingVisualFormat:nil
+                                           variableBindings:@{ @"imageView": imageView,
+                                                               @"label":     label }];
+
+```
+Here `imageView` and `label` will have equal width constraints and both have a height of `60` (the height constraint is optional of course).
+
+## Ex. 3
+
+If you want to center some views or pin some views to certain sides, you can use `<` to specify pinning to the left, `>` to specify pinning to the right, and `<>` for centering. To generate a view like this:
+```
+|[imageView]     [label]     [button]|
+```
+We would do the following:
+```
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)<][label(50)<>][button(50)>](60)"]
+                                     rowSpacingVisualFormat:nil
+                                           variableBindings:@{ @"imageView": imageView,
+                                                               @"label":     label,
+                                                               @"button"     button }];
+
+```
+
+Mutiple views can also be centered together such as :
+```
+|          [imageview][label]           |
+```
+Just use the `<>` syntax for both views:
+```
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)<>][label(50)<>](60)"]
+                                     rowSpacingVisualFormat:nil
+                                           variableBindings:@{ @"imageView": imageView,
+                                                               @"label":     label }];
+
+```
+
+Note that for these examples of pinning and centering views you must specify width constraints on your views. This is because if a view is allowed to stretch in width, it doesn't make sense to pin/center it.
+
+## Ex. 4
+
 Making views with multiple rows is just as easy. Suppose we want the same view as in Ex. 1, but below it we want a `UITextView`.
 ```
-[imageView][       label        ]
-[            textView           ]
+|[imageView][       label        ]|
+|[            textView           ]|
 ```
 With Visual this would be:
 
