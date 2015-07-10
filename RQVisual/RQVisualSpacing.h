@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface VisualSpacing : NSObject
+@interface RQVisualSpacing : NSObject
 
 @property (nonatomic) CGFloat spacing;
 @property (nonatomic, copy) NSString *firstItemLabel;

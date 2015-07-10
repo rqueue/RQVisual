@@ -1,6 +1,6 @@
-#import "VisualSpacing.h"
+#import "RQVisualSpacing.h"
 
-@implementation VisualSpacing
+@implementation RQVisualSpacing
 
 - (BOOL)isSpacingForFirstItemLabel:(NSString *)firstItemLabel secondItemLabel:(NSString *)secondItemLabel {
     BOOL firstItemMatch = firstItemLabel ? [firstItemLabel isEqualToString:self.firstItemLabel] : !self.firstItemLabel;

@@ -1,13 +1,13 @@
-#import "VisualFormatConverter.h"
+#import "RQVisualFormatConverter.h"
 #import "NSString+Parse.h"
-#import "VisualItem.h"
-#import "VisualSpacing.h"
+#import "RQVisualItem.h"
+#import "RQVisualSpacing.h"
 
 static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
 static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?([<>]+)?\\]";
 static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\\[(\\w+)(?:\\((?:[\\d\\.=]+)\\))?\\]";
 
-@implementation VisualFormatConverter
+@implementation RQVisualFormatConverter
 
 #pragma mark - Public
 
@@ -23,7 +23,7 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
     while ([formatRemaining length] > 0) {
         NSTextCheckingResult *match = [regex firstMatchInString:formatRemaining options:0 range:NSMakeRange(0, [formatRemaining length])];
         if (match) {
-            VisualItem *visualItem = [self visualItemForVisualItemVisualFormat:[formatRemaining substringWithRange:[match rangeAtIndex:0]]
+            RQVisualItem *visualItem = [self visualItemForVisualItemVisualFormat:[formatRemaining substringWithRange:[match rangeAtIndex:0]]
                                                               variableBindings:variableBindings
                                                                   heightString:heightString
                                                                       rowLabel:rowLabel];
@@ -56,12 +56,12 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
             NSString *spacingString = [formatRemaining substringWithRange:spacingStringRange];
             NSString *secondItemLabel = secondItemLabelRange.length > 0 ? [formatRemaining substringWithRange:secondItemLabelRange] : nil;
 
-            VisualSpacing *visualItemSpacing = [[VisualSpacing alloc] init];
+            RQVisualSpacing *visualItemSpacing = [[RQVisualSpacing alloc] init];
             visualItemSpacing.firstItemLabel = firstItemLabel;
             visualItemSpacing.secondItemLabel = secondItemLabel;
             visualItemSpacing.spacing = [spacingString floatValue];
             [visualSpacings addObject:visualItemSpacing];
-            NSLog(@"first: %@, second: %@, spacing: %f", firstItemLabel, secondItemLabel, [spacingString floatValue]);
+
             if (secondItemLabelRange.length > 0) {
                 formatRemaining = [formatRemaining substringFromIndex:secondItemLabelRange.location - 1];
             } else {
@@ -77,7 +77,7 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
 
 #pragma mark - Internal
 
-+ (VisualItem *)visualItemForVisualItemVisualFormat:(NSString *)visualItemVisualFormat
++ (RQVisualItem *)visualItemForVisualItemVisualFormat:(NSString *)visualItemVisualFormat
                                    variableBindings:(NSDictionary *)variableBindings
                                        heightString:(NSString *)heightString
                                            rowLabel:(NSString *)rowLabel {
@@ -103,7 +103,7 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
         view.backgroundColor = [UIColor clearColor];
     }
 
-    VisualItem *visualItem = [[VisualItem alloc] init];
+    RQVisualItem *visualItem = [[RQVisualItem alloc] init];
     visualItem.rowLabel = rowLabel;
     visualItem.visualFormat = [self visualFormatForVisualFormat:[visualItemVisualFormat substringWithRange:[match rangeAtIndex:0]] widthRange:widthRange alignmentRange:alignmentRange];
     visualItem.viewName = viewString;

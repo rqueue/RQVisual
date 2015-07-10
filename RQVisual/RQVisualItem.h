@@ -14,7 +14,7 @@ typedef NS_ENUM(NSInteger, VisualItemAlignmentType) {
     VisualItemAlignmentTypeCenter,
 };
 
-@interface VisualItem : NSObject
+@interface RQVisualItem : NSObject
 
 @property (nonatomic, copy) NSString *visualFormat;
 @property (nonatomic, copy) NSString *viewName;

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Visual.xcodeproj">
+      location = "self:/Users/Ryan/Developer/Visual/RQVisual.xcodeproj">
    </FileRef>
 </Workspace>

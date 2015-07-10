@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		94560C241AE36669006AF9F0 /* libVisual.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94560C181AE36668006AF9F0 /* libVisual.a */; };
-		94560C3A1AE36687006AF9F0 /* VisualItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C331AE36687006AF9F0 /* VisualItem.m */; };
-		94560C3B1AE36687006AF9F0 /* VisualMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C351AE36687006AF9F0 /* VisualMaster.m */; };
-		94560C3C1AE36687006AF9F0 /* VisualSpacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C371AE36687006AF9F0 /* VisualSpacing.m */; };
+		94560C241AE36669006AF9F0 /* libRQVisual.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94560C181AE36668006AF9F0 /* libRQVisual.a */; };
+		94560C3A1AE36687006AF9F0 /* RQVisualItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C331AE36687006AF9F0 /* RQVisualItem.m */; };
+		94560C3B1AE36687006AF9F0 /* RQVisualMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C351AE36687006AF9F0 /* RQVisualMaster.m */; };
+		94560C3C1AE36687006AF9F0 /* RQVisualSpacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C371AE36687006AF9F0 /* RQVisualSpacing.m */; };
 		94560C3D1AE36687006AF9F0 /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */; };
 		94A1627C1AE43217001C05FF /* NSString+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A1627B1AE43217001C05FF /* NSString+Parse.m */; };
-		94A162811AE43562001C05FF /* VisualFormatConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A162801AE43562001C05FF /* VisualFormatConverter.m */; };
+		94A162811AE43562001C05FF /* RQVisualFormatConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A162801AE43562001C05FF /* RQVisualFormatConverter.m */; };
+		94BE335F1B4F905B009B30C4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE335E1B4F905B009B30C4 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,7 +23,7 @@
 			containerPortal = 94560C101AE36668006AF9F0 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 94560C171AE36668006AF9F0;
-			remoteInfo = Visual;
+			remoteInfo = RQVisual;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -39,22 +40,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		94560C181AE36668006AF9F0 /* libVisual.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVisual.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		94560C231AE36669006AF9F0 /* VisualTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisualTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		94560C291AE36669006AF9F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94560C321AE36687006AF9F0 /* VisualItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualItem.h; sourceTree = "<group>"; };
-		94560C331AE36687006AF9F0 /* VisualItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualItem.m; sourceTree = "<group>"; };
-		94560C341AE36687006AF9F0 /* VisualMaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualMaster.h; sourceTree = "<group>"; };
-		94560C351AE36687006AF9F0 /* VisualMaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualMaster.m; sourceTree = "<group>"; };
-		94560C361AE36687006AF9F0 /* VisualSpacing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualSpacing.h; sourceTree = "<group>"; };
-		94560C371AE36687006AF9F0 /* VisualSpacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualSpacing.m; sourceTree = "<group>"; };
+		94560C181AE36668006AF9F0 /* libRQVisual.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRQVisual.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		94560C231AE36669006AF9F0 /* RQVisualTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RQVisualTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		94560C321AE36687006AF9F0 /* RQVisualItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RQVisualItem.h; sourceTree = "<group>"; };
+		94560C331AE36687006AF9F0 /* RQVisualItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RQVisualItem.m; sourceTree = "<group>"; };
+		94560C341AE36687006AF9F0 /* RQVisualMaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RQVisualMaster.h; sourceTree = "<group>"; };
+		94560C351AE36687006AF9F0 /* RQVisualMaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RQVisualMaster.m; sourceTree = "<group>"; };
+		94560C361AE36687006AF9F0 /* RQVisualSpacing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RQVisualSpacing.h; sourceTree = "<group>"; };
+		94560C371AE36687006AF9F0 /* RQVisualSpacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RQVisualSpacing.m; sourceTree = "<group>"; };
 		94560C381AE36687006AF9F0 /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		94560C391AE36687006AF9F0 /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
 		94A1627A1AE43217001C05FF /* NSString+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Parse.h"; sourceTree = "<group>"; };
 		94A1627B1AE43217001C05FF /* NSString+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Parse.m"; sourceTree = "<group>"; };
-		94A1627F1AE43562001C05FF /* VisualFormatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualFormatConverter.h; sourceTree = "<group>"; };
-		94A162801AE43562001C05FF /* VisualFormatConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualFormatConverter.m; sourceTree = "<group>"; };
-		94EE64D11AE36E23009AF917 /* Visual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Visual.h; sourceTree = "<group>"; };
+		94A1627F1AE43562001C05FF /* RQVisualFormatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RQVisualFormatConverter.h; sourceTree = "<group>"; };
+		94A162801AE43562001C05FF /* RQVisualFormatConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RQVisualFormatConverter.m; sourceTree = "<group>"; };
+		94BE335E1B4F905B009B30C4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94EE64D11AE36E23009AF917 /* RQVisual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RQVisual.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94560C241AE36669006AF9F0 /* libVisual.a in Frameworks */,
+				94560C241AE36669006AF9F0 /* libRQVisual.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,8 +80,8 @@
 		94560C0F1AE36668006AF9F0 = {
 			isa = PBXGroup;
 			children = (
-				94560C1A1AE36668006AF9F0 /* Visual */,
-				94560C271AE36669006AF9F0 /* VisualTests */,
+				94560C1A1AE36668006AF9F0 /* RQVisual */,
+				94560C271AE36669006AF9F0 /* RQVisualTests */,
 				94560C191AE36668006AF9F0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,38 +89,38 @@
 		94560C191AE36668006AF9F0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				94560C181AE36668006AF9F0 /* libVisual.a */,
-				94560C231AE36669006AF9F0 /* VisualTests.xctest */,
+				94560C181AE36668006AF9F0 /* libRQVisual.a */,
+				94560C231AE36669006AF9F0 /* RQVisualTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		94560C1A1AE36668006AF9F0 /* Visual */ = {
+		94560C1A1AE36668006AF9F0 /* RQVisual */ = {
 			isa = PBXGroup;
 			children = (
 				94A1627D1AE43521001C05FF /* Entities */,
 				94560C3E1AE366DB006AF9F0 /* Categories */,
-				94EE64D11AE36E23009AF917 /* Visual.h */,
-				94560C341AE36687006AF9F0 /* VisualMaster.h */,
-				94560C351AE36687006AF9F0 /* VisualMaster.m */,
-				94A1627F1AE43562001C05FF /* VisualFormatConverter.h */,
-				94A162801AE43562001C05FF /* VisualFormatConverter.m */,
+				94EE64D11AE36E23009AF917 /* RQVisual.h */,
+				94560C341AE36687006AF9F0 /* RQVisualMaster.h */,
+				94560C351AE36687006AF9F0 /* RQVisualMaster.m */,
+				94A1627F1AE43562001C05FF /* RQVisualFormatConverter.h */,
+				94A162801AE43562001C05FF /* RQVisualFormatConverter.m */,
 			);
-			path = Visual;
+			path = RQVisual;
 			sourceTree = "<group>";
 		};
-		94560C271AE36669006AF9F0 /* VisualTests */ = {
+		94560C271AE36669006AF9F0 /* RQVisualTests */ = {
 			isa = PBXGroup;
 			children = (
 				94560C281AE36669006AF9F0 /* Supporting Files */,
 			);
-			path = VisualTests;
+			path = RQVisualTests;
 			sourceTree = "<group>";
 		};
 		94560C281AE36669006AF9F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				94560C291AE36669006AF9F0 /* Info.plist */,
+				94BE335E1B4F905B009B30C4 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -138,10 +139,10 @@
 		94A1627D1AE43521001C05FF /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				94560C321AE36687006AF9F0 /* VisualItem.h */,
-				94560C331AE36687006AF9F0 /* VisualItem.m */,
-				94560C361AE36687006AF9F0 /* VisualSpacing.h */,
-				94560C371AE36687006AF9F0 /* VisualSpacing.m */,
+				94560C321AE36687006AF9F0 /* RQVisualItem.h */,
+				94560C331AE36687006AF9F0 /* RQVisualItem.m */,
+				94560C361AE36687006AF9F0 /* RQVisualSpacing.h */,
+				94560C371AE36687006AF9F0 /* RQVisualSpacing.m */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -149,9 +150,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		94560C171AE36668006AF9F0 /* Visual */ = {
+		94560C171AE36668006AF9F0 /* RQVisual */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94560C2C1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "Visual" */;
+			buildConfigurationList = 94560C2C1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "RQVisual" */;
 			buildPhases = (
 				94560C141AE36668006AF9F0 /* Sources */,
 				94560C151AE36668006AF9F0 /* Frameworks */,
@@ -161,14 +162,14 @@
 			);
 			dependencies = (
 			);
-			name = Visual;
-			productName = Visual;
-			productReference = 94560C181AE36668006AF9F0 /* libVisual.a */;
+			name = RQVisual;
+			productName = RQVisual;
+			productReference = 94560C181AE36668006AF9F0 /* libRQVisual.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		94560C221AE36669006AF9F0 /* VisualTests */ = {
+		94560C221AE36669006AF9F0 /* RQVisualTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94560C2F1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "VisualTests" */;
+			buildConfigurationList = 94560C2F1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "RQVisualTests" */;
 			buildPhases = (
 				94560C1F1AE36669006AF9F0 /* Sources */,
 				94560C201AE36669006AF9F0 /* Frameworks */,
@@ -179,9 +180,9 @@
 			dependencies = (
 				94560C261AE36669006AF9F0 /* PBXTargetDependency */,
 			);
-			name = VisualTests;
-			productName = VisualTests;
-			productReference = 94560C231AE36669006AF9F0 /* VisualTests.xctest */;
+			name = RQVisualTests;
+			productName = RQVisualTests;
+			productReference = 94560C231AE36669006AF9F0 /* RQVisualTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -201,7 +202,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 94560C131AE36668006AF9F0 /* Build configuration list for PBXProject "Visual" */;
+			buildConfigurationList = 94560C131AE36668006AF9F0 /* Build configuration list for PBXProject "RQVisual" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -213,8 +214,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				94560C171AE36668006AF9F0 /* Visual */,
-				94560C221AE36669006AF9F0 /* VisualTests */,
+				94560C171AE36668006AF9F0 /* RQVisual */,
+				94560C221AE36669006AF9F0 /* RQVisualTests */,
 			);
 		};
 /* End PBXProject section */
@@ -224,6 +225,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94BE335F1B4F905B009B30C4 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,10 +238,10 @@
 			files = (
 				94560C3D1AE36687006AF9F0 /* NSMutableArray+Stack.m in Sources */,
 				94A1627C1AE43217001C05FF /* NSString+Parse.m in Sources */,
-				94560C3C1AE36687006AF9F0 /* VisualSpacing.m in Sources */,
-				94560C3A1AE36687006AF9F0 /* VisualItem.m in Sources */,
-				94560C3B1AE36687006AF9F0 /* VisualMaster.m in Sources */,
-				94A162811AE43562001C05FF /* VisualFormatConverter.m in Sources */,
+				94560C3C1AE36687006AF9F0 /* RQVisualSpacing.m in Sources */,
+				94560C3A1AE36687006AF9F0 /* RQVisualItem.m in Sources */,
+				94560C3B1AE36687006AF9F0 /* RQVisualMaster.m in Sources */,
+				94A162811AE43562001C05FF /* RQVisualFormatConverter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,7 +257,7 @@
 /* Begin PBXTargetDependency section */
 		94560C261AE36669006AF9F0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 94560C171AE36668006AF9F0 /* Visual */;
+			target = 94560C171AE36668006AF9F0 /* RQVisual */;
 			targetProxy = 94560C251AE36669006AF9F0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -339,7 +341,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RQVisual;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -348,7 +350,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RQVisual;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -364,9 +366,9 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = VisualTests/Info.plist;
+				INFOPLIST_FILE = RQVisualTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RQVisualTests;
 			};
 			name = Debug;
 		};
@@ -377,16 +379,16 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = VisualTests/Info.plist;
+				INFOPLIST_FILE = RQVisualTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RQVisualTests;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		94560C131AE36668006AF9F0 /* Build configuration list for PBXProject "Visual" */ = {
+		94560C131AE36668006AF9F0 /* Build configuration list for PBXProject "RQVisual" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94560C2A1AE36669006AF9F0 /* Debug */,
@@ -395,7 +397,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94560C2C1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "Visual" */ = {
+		94560C2C1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "RQVisual" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94560C2D1AE36669006AF9F0 /* Debug */,
@@ -404,7 +406,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94560C2F1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "VisualTests" */ = {
+		94560C2F1AE36669006AF9F0 /* Build configuration list for PBXNativeTarget "RQVisualTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94560C301AE36669006AF9F0 /* Debug */,

@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@interface VisualFormatConverter : NSObject
+@interface RQVisualFormatConverter : NSObject
 
 + (NSArray *)visualSpacingsForVisualFormat:(NSString *)visualFormat;
 + (NSArray *)visualItemsForVisualFormat:(NSString *)visualFormat variableBindings:(NSDictionary *)variableBindings;

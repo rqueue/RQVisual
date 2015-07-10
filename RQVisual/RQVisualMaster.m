@@ -1,27 +1,27 @@
-#import "VisualMaster.h"
+#import "RQVisualMaster.h"
 #import "NSMutableArray+Stack.h"
-#import "VisualSpacing.h"
-#import "VisualItem.h"
-#import "VisualFormatConverter.h"
+#import "RQVisualSpacing.h"
+#import "RQVisualItem.h"
+#import "RQVisualFormatConverter.h"
 
 static CGFloat const kVisualMasterVerticalPadding = 10.0;
 static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
-@interface VisualMaster()
+@interface RQVisualMaster()
 
 @property (nonatomic) CGFloat defaultVerticalPadding;
 @property (nonatomic) CGFloat defaultHorizontalPadding;
 
 @end
 
-@implementation VisualMaster
+@implementation RQVisualMaster
 
 + (instancetype)sharedInstance {
-    static VisualMaster *visualMaster = nil;
+    static RQVisualMaster *visualMaster = nil;
     static dispatch_once_t once;
 
     dispatch_once(&once, ^{
-        visualMaster = [[VisualMaster alloc] init];
+        visualMaster = [[RQVisualMaster alloc] init];
         visualMaster.defaultVerticalPadding = kVisualMasterVerticalPadding;
         visualMaster.defaultHorizontalPadding = kVisualMasterHorizontalPadding;
     });
@@ -30,12 +30,12 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 }
 
 + (void)setDefaultVerticalPaddig:(CGFloat)verticalPadding {
-    VisualMaster *vm = [VisualMaster sharedInstance];
+    RQVisualMaster *vm = [RQVisualMaster sharedInstance];
     vm.defaultVerticalPadding = verticalPadding;
 }
 
 + (void)setDefaultHorizontalPadding:(CGFloat)horizontalPadding {
-    VisualMaster *vm = [VisualMaster sharedInstance];
+    RQVisualMaster *vm = [RQVisualMaster sharedInstance];
     vm.defaultHorizontalPadding = horizontalPadding;
 }
 
@@ -50,24 +50,24 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     NSMutableArray *visualItemsRows = [NSMutableArray array];
     NSMutableArray *visualItemSpacings = [NSMutableArray array];
     for (NSString *visualFormat in visualFormats) {
-        NSArray *visualItems = [VisualFormatConverter visualItemsForVisualFormat:visualFormat variableBindings:variableBindings];
+        NSArray *visualItems = [RQVisualFormatConverter visualItemsForVisualFormat:visualFormat variableBindings:variableBindings];
         [visualItemsRows addObject:visualItems];
 
-        NSArray *visualItemSpacing = [VisualFormatConverter visualSpacingsForVisualFormat:visualFormat];
+        NSArray *visualItemSpacing = [RQVisualFormatConverter visualSpacingsForVisualFormat:visualFormat];
         [visualItemSpacings addObject:visualItemSpacing];
     }
 
     CGFloat height = 0;
     CGFloat width = 0;
 
-    NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[VisualFormatConverter visualSpacingsForVisualFormat:rowSpacingVisualFormat]];
-    VisualSpacing *visualRowSpacing = [visualRowSpacings pop];
+    NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[RQVisualFormatConverter visualSpacingsForVisualFormat:rowSpacingVisualFormat]];
+    RQVisualSpacing *visualRowSpacing = [visualRowSpacings pop];
     for (NSUInteger row = 0; row < [visualItemsRows count]; row++) {
-        CGFloat defaultHorizontalPadding = [VisualMaster sharedInstance].defaultHorizontalPadding;
-        CGFloat defaultVerticalPadding = [VisualMaster sharedInstance].defaultVerticalPadding;
+        CGFloat defaultHorizontalPadding = [RQVisualMaster sharedInstance].defaultHorizontalPadding;
+        CGFloat defaultVerticalPadding = [RQVisualMaster sharedInstance].defaultVerticalPadding;
 
         NSMutableArray *visualItemSpacingsForRow = [visualItemSpacings[row] mutableCopy];
-        VisualSpacing *visualItemSpacing = [visualItemSpacingsForRow pop];
+        RQVisualSpacing *visualItemSpacing = [visualItemSpacingsForRow pop];
 
         CGFloat rowSpacingHeight = 0;
         if (row > 0) {
@@ -77,7 +77,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
         CGFloat rowWidth = 0;
         NSArray *visualItems = visualItemsRows[row];
         for (NSUInteger i = 0; i < [visualItems count]; i++) {
-            VisualItem *visualItem = visualItems[i];
+            RQVisualItem *visualItem = visualItems[i];
 
             switch (visualItem.widthType) {
                 case VisualItemDimensionTypeFixed:
@@ -124,7 +124,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     visualItem.topConstraint = constraint;
                 } else {
                     // Constrain view to a view above
-                    VisualItem *aboveVisualItem = visualItemsRows[row - 1][0];
+                    RQVisualItem *aboveVisualItem = visualItemsRows[row - 1][0];
                     UIView *aboveView = aboveVisualItem.view;
 
                     CGFloat constant = defaultVerticalPadding;
@@ -145,7 +145,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     aboveVisualItem.bottomConstraint = constraint;
                 }
             } else {
-                VisualItem *firstVisualItem = visualItems[0];
+                RQVisualItem *firstVisualItem = visualItems[0];
                 UIView *firstView = firstVisualItem.view;
                 NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
                                                                               attribute:NSLayoutAttributeTop
@@ -168,7 +168,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                         rowSpacingHeight = visualRowSpacing.spacing;
                         visualRowSpacing = [visualRowSpacings pop];
                     } else if (visualItem.heightType == VisualItemDimensionTypeFixed) {
-                        if (row == 0 || ((VisualItem *)visualItemsRows[row - 1][0]).heightType != VisualItemDimensionTypeDynamic) {
+                        if (row == 0 || ((RQVisualItem *)visualItemsRows[row - 1][0]).heightType != VisualItemDimensionTypeDynamic) {
                             relation = NSLayoutRelationGreaterThanOrEqual;
                         }
                     }
@@ -182,7 +182,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                     [containerView addConstraint:constraint];
                     visualItem.bottomConstraint = constraint;
                 } else {
-                    VisualItem *firstVisualItem = visualItems[0];
+                    RQVisualItem *firstVisualItem = visualItems[0];
                     UIView *firstView = firstVisualItem.view;
                     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:view
                                                                                   attribute:NSLayoutAttributeBottom
@@ -227,7 +227,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 visualItem.leftConstraint = leftConstraint;
             } else {
                 // Constraint view to view to left
-                VisualItem *leftVisualItem = visualItems[i - 1];
+                RQVisualItem *leftVisualItem = visualItems[i - 1];
                 UIView *leftView = leftVisualItem.view;
                 NSDictionary *variables = @{visualItem.viewName: visualItem.view};
                 NSString *visual = [NSString stringWithFormat:@"H:%@", visualItem.visualFormat];
@@ -260,7 +260,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
             if (i == [visualItems count] - 1) {
                 // Constrain view to right
                 NSLayoutRelation relation = NSLayoutRelationEqual;
-                VisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
+                RQVisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
                 if (visualItem.widthType == VisualItemDimensionTypeFixed && (i == 0 || previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
                     relation = NSLayoutRelationGreaterThanOrEqual;
                 }
@@ -298,9 +298,9 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 + (void)adjustHorizontalConstraintsForVisualItems:(NSArray *)visualItems containerView:(UIView *)containerView {
     NSMutableArray *centeredItems = [NSMutableArray array];
     for (NSUInteger i = 0; i < [visualItems count]; i ++) {
-        VisualItem *visualItem = visualItems[i];
-        VisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
-        VisualItem *nextVisualItem = i + 1 < [visualItems count] ? visualItems[i + 1] : nil;
+        RQVisualItem *visualItem = visualItems[i];
+        RQVisualItem *previousVisualItem = i > 0 ? visualItems[i - 1] : nil;
+        RQVisualItem *nextVisualItem = i + 1 < [visualItems count] ? visualItems[i + 1] : nil;
 
         if (visualItem.horizontalAlignmentType == VisualItemAlignmentTypeLeft || visualItem.horizontalAlignmentType == VisualItemAlignmentTypeCenter) {
             if (!nextVisualItem || (nextVisualItem.horizontalAlignmentType != VisualItemAlignmentTypeLeft && nextVisualItem.widthType == VisualItemDimensionTypeFixed)) {
@@ -320,16 +320,16 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     }
 
     if ([centeredItems count] > 0) {
-        CGFloat defaultHorizontalPadding = [VisualMaster sharedInstance].defaultHorizontalPadding;
+        CGFloat defaultHorizontalPadding = [RQVisualMaster sharedInstance].defaultHorizontalPadding;
         CGFloat horizontalPadding = ([centeredItems count] - 1) * defaultHorizontalPadding;
         CGFloat totalWidth = horizontalPadding;
-        for (VisualItem *visualItem in centeredItems) {
+        for (RQVisualItem *visualItem in centeredItems) {
             totalWidth += visualItem.width;
         }
 
         CGFloat offsetFromCenter = -totalWidth / 2.0;
         for (NSUInteger i = 0; i < [centeredItems count]; i++) {
-            VisualItem *visualItem = centeredItems[i];
+            RQVisualItem *visualItem = centeredItems[i];
             [containerView addConstraint:[NSLayoutConstraint constraintWithItem:visualItem.view
                                                                       attribute:NSLayoutAttributeLeft
                                                                       relatedBy:NSLayoutRelationEqual
@@ -344,7 +344,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
 + (void)addEqualWidthConstraintsForVisualItems:(NSArray *)visualItems containerView:(UIView *)containerView {
     NSMutableArray *visualItemsWithEqualWidths = [NSMutableArray array];
-    for (VisualItem *visualItem in visualItems) {
+    for (RQVisualItem *visualItem in visualItems) {
         if (visualItem.widthType == VisualItemDimensionTypeEqual) {
             [visualItemsWithEqualWidths addObject:visualItem];
         }
@@ -352,8 +352,8 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
     if ([visualItemsWithEqualWidths count] > 1) {
         for (NSUInteger k = 1; k < [visualItemsWithEqualWidths count]; k++) {
-            VisualItem *previousVisualItem = visualItemsWithEqualWidths[k - 1];
-            VisualItem *currentVisualItem = visualItemsWithEqualWidths[k];
+            RQVisualItem *previousVisualItem = visualItemsWithEqualWidths[k - 1];
+            RQVisualItem *currentVisualItem = visualItemsWithEqualWidths[k];
             [containerView addConstraint:[NSLayoutConstraint constraintWithItem:previousVisualItem.view
                                                                       attribute:NSLayoutAttributeWidth
                                                                       relatedBy:NSLayoutRelationEqual

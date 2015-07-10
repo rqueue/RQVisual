@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface VisualMaster : NSObject
+@interface RQVisualMaster : NSObject
 
 + (void)setDefaultVerticalPaddig:(CGFloat)verticalPadding;
 + (void)setDefaultHorizontalPadding:(CGFloat)horizontalPadding;

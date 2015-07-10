@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "Visual"
+  s.name         = "RQVisual"
   s.version      = "0.0.1"
   s.summary      = "A tool for laying out views in code."
 
@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.license       = "MIT"
   s.author        = { "Ryan Quan" => "ryanhquan@gmail.com" }
   s.source        = { :git => "git@github.com:rqueue/Visual.git", :tag => "0.0.1" }
-  s.source_files  = "Visual", "Visual/**/*.{h,m}"
+  s.source_files  = "RQVisual", "RQVisual/**/*.{h,m}"
 end
