@@ -8,9 +8,9 @@ Pod::Spec.new do |s|
                     style formats similar to those used by NSLayoutConstraint.
                    DESC
 
-  s.homepage      = "https://github.com/rqueue/Visual"
+  s.homepage      = "https://github.com/rqueue/RQVisual"
   s.license       = "MIT"
   s.author        = { "Ryan Quan" => "ryanhquan@gmail.com" }
-  s.source        = { :git => "git@github.com:rqueue/Visual.git", :tag => "0.0.1" }
+  s.source        = { :git => "git@github.com:rqueue/RQVisual.git", :tag => "0.0.1" }
   s.source_files  = "RQVisual", "RQVisual/**/*.{h,m}"
 end
