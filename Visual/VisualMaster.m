@@ -48,19 +48,26 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 + (void)addSubviewsToView:(UIView *)containerView usingVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings {
 
     NSMutableArray *visualItemsRows = [NSMutableArray array];
+    NSMutableArray *visualItemSpacings = [NSMutableArray array];
     for (NSString *visualFormat in visualFormats) {
         NSArray *visualItems = [VisualFormatConverter visualItemsForVisualFormat:visualFormat variableBindings:variableBindings];
         [visualItemsRows addObject:visualItems];
+
+        NSArray *visualItemSpacing = [VisualFormatConverter visualSpacingsForVisualFormat:visualFormat];
+        [visualItemSpacings addObject:visualItemSpacing];
     }
 
     CGFloat height = 0;
     CGFloat width = 0;
 
-    NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[VisualFormatConverter visualRowSpacingsForRowVisualFormat:rowSpacingVisualFormat]];
+    NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[VisualFormatConverter visualSpacingsForVisualFormat:rowSpacingVisualFormat]];
     VisualSpacing *visualRowSpacing = [visualRowSpacings pop];
     for (NSUInteger row = 0; row < [visualItemsRows count]; row++) {
         CGFloat defaultHorizontalPadding = [VisualMaster sharedInstance].defaultHorizontalPadding;
         CGFloat defaultVerticalPadding = [VisualMaster sharedInstance].defaultVerticalPadding;
+
+        NSMutableArray *visualItemSpacingsForRow = [visualItemSpacings[row] mutableCopy];
+        VisualSpacing *visualItemSpacing = [visualItemSpacingsForRow pop];
 
         CGFloat rowSpacingHeight = 0;
         if (row > 0) {
@@ -198,6 +205,13 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
 
                 // Constrain view to left
                 NSString *visual = [NSString stringWithFormat:@"H:%@", visualItem.visualFormat];
+
+                CGFloat spacing = 0.0;
+                if ([visualItemSpacing isSpacingForFirstItemLabel:nil secondItemLabel:visualItem.viewName]) {
+                    spacing = visualItemSpacing.spacing;
+                    visualItemSpacing = [visualItemSpacingsForRow pop];
+                }
+
                 [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:visual
                                                                                        options:0
                                                                                        metrics:nil
@@ -208,7 +222,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                                                                                      toItem:containerView
                                                                                   attribute:NSLayoutAttributeLeading
                                                                                  multiplier:1.0
-                                                                                   constant:0.0];
+                                                                                   constant:spacing];
                 [containerView addConstraint:leftConstraint];
                 visualItem.leftConstraint = leftConstraint;
             } else {
@@ -217,6 +231,13 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 UIView *leftView = leftVisualItem.view;
                 NSDictionary *variables = @{visualItem.viewName: visualItem.view};
                 NSString *visual = [NSString stringWithFormat:@"H:%@", visualItem.visualFormat];
+
+                CGFloat spacing = defaultHorizontalPadding;
+                if ([visualItemSpacing isSpacingForFirstItemLabel:leftVisualItem.viewName secondItemLabel:visualItem.viewName]) {
+                    spacing = visualItemSpacing.spacing;
+                    visualItemSpacing = [visualItemSpacingsForRow pop];
+                }
+
                 NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:visual
                                                                                options:0
                                                                                metrics:nil
@@ -229,7 +250,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                                                                                  toItem:leftView
                                                                               attribute:NSLayoutAttributeTrailing
                                                                              multiplier:1.0
-                                                                               constant:defaultHorizontalPadding];
+                                                                               constant:spacing];
                 [containerView addConstraint:constraint];
                 visualItem.leftConstraint = constraint;
                 leftVisualItem.rightConstraint = constraint;
@@ -243,13 +264,20 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 if (visualItem.widthType == VisualItemDimensionTypeFixed && (i == 0 || previousVisualItem.widthType == VisualItemDimensionTypeFixed)) {
                     relation = NSLayoutRelationGreaterThanOrEqual;
                 }
+
+                CGFloat spacing = 0.0;
+                if ([visualItemSpacing isSpacingForFirstItemLabel:visualItem.viewName secondItemLabel:nil]) {
+                    spacing = visualItemSpacing.spacing;
+                    visualItemSpacing = [visualItemSpacingsForRow pop];
+                }
+
                 NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:containerView
                                                                               attribute:NSLayoutAttributeTrailing
                                                                               relatedBy:relation
                                                                                  toItem:visualItem.view
                                                                               attribute:NSLayoutAttributeTrailing
                                                                              multiplier:1.0
-                                                                               constant:0.0];
+                                                                               constant:spacing];
                 [containerView addConstraint:constraint];
                 visualItem.rightConstraint = constraint;
             }

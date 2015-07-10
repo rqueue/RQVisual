@@ -5,6 +5,7 @@
 
 static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
 static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?([<>]+)?\\]";
+static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\\[(\\w+)(?:\\((?:[\\d\\.=]+)\\))?\\]";
 
 @implementation VisualFormatConverter
 
@@ -36,33 +37,33 @@ static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+
     return [visualItems copy];
 }
 
-+ (NSArray *)visualRowSpacingsForRowVisualFormat:(NSString *)rowVisualFormat {
-    NSMutableArray *visualRowSpacings = [NSMutableArray array];
-    NSString *pattern = @"(?:\\||(?:\\[(\\w+)\\]))-(?:(?:(\\d+))|(?:\\((\\d+)\\)))-(?:\\||(?:\\[(\\w+)\\]))";
-    NSString *formatRemaining = [rowVisualFormat copy];
++ (NSArray *)visualSpacingsForVisualFormat:(NSString *)visualFormat {
+    NSMutableArray *visualSpacings = [NSMutableArray array];
+    NSString *pattern = [NSString stringWithFormat:@"(?:\\||(?:%@))-(?:(?:(\\d+))|(?:\\((\\d+)\\)))-(?:\\||(?:%@))", kVisualFormatConverterVisualSpacingItemVisualFormat, kVisualFormatConverterVisualSpacingItemVisualFormat];
+    NSString *formatRemaining = [visualFormat copy];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
 
     while ([formatRemaining length] > 0) {
         NSTextCheckingResult *match = [regex firstMatchInString:formatRemaining options:0 range:NSMakeRange(0, [formatRemaining length])];
         if (match) {
-            NSRange topRowLabelRange = [match rangeAtIndex:1];
+            NSRange firstItemLabelRange = [match rangeAtIndex:1];
             NSRange spacingStringRangeWithoutParen = [match rangeAtIndex:2];
             NSRange spacingStringRangeWithParen = [match rangeAtIndex:3];
             NSRange spacingStringRange = spacingStringRangeWithoutParen.length > 0 ? spacingStringRangeWithoutParen : spacingStringRangeWithParen;
-            NSRange bottomRowLabelRange = [match rangeAtIndex:4];
+            NSRange secondItemLabelRange = [match rangeAtIndex:4];
 
-            NSString *topRowLabel = topRowLabelRange.length > 0 ? [formatRemaining substringWithRange:topRowLabelRange] : nil;
+            NSString *firstItemLabel = firstItemLabelRange.length > 0 ? [formatRemaining substringWithRange:firstItemLabelRange] : nil;
             NSString *spacingString = [formatRemaining substringWithRange:spacingStringRange];
-            NSString *bottomRowLabel = bottomRowLabelRange.length > 0 ? [formatRemaining substringWithRange:bottomRowLabelRange] : nil;
+            NSString *secondItemLabel = secondItemLabelRange.length > 0 ? [formatRemaining substringWithRange:secondItemLabelRange] : nil;
 
-            VisualSpacing *visualRowSpacing = [[VisualSpacing alloc] init];
-            visualRowSpacing.firstItemLabel = topRowLabel;
-            visualRowSpacing.secondItemLabel = bottomRowLabel;
-            visualRowSpacing.spacing = [spacingString floatValue];
-            [visualRowSpacings addObject:visualRowSpacing];
-
-            if (bottomRowLabelRange.length > 0) {
-                formatRemaining = [formatRemaining substringFromIndex:bottomRowLabelRange.location - 1];
+            VisualSpacing *visualItemSpacing = [[VisualSpacing alloc] init];
+            visualItemSpacing.firstItemLabel = firstItemLabel;
+            visualItemSpacing.secondItemLabel = secondItemLabel;
+            visualItemSpacing.spacing = [spacingString floatValue];
+            [visualSpacings addObject:visualItemSpacing];
+            NSLog(@"first: %@, second: %@, spacing: %f", firstItemLabel, secondItemLabel, [spacingString floatValue]);
+            if (secondItemLabelRange.length > 0) {
+                formatRemaining = [formatRemaining substringFromIndex:secondItemLabelRange.location - 1];
             } else {
                 break;
             }
@@ -71,7 +72,7 @@ static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+
         }
     }
 
-    return [visualRowSpacings copy];
+    return [visualSpacings copy];
 }
 
 #pragma mark - Internal

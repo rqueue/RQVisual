@@ -2,7 +2,7 @@
 
 @interface VisualFormatConverter : NSObject
 
-+ (NSArray *)visualRowSpacingsForRowVisualFormat:(NSString *)rowVisualFormat;
++ (NSArray *)visualSpacingsForVisualFormat:(NSString *)visualFormat;
 + (NSArray *)visualItemsForVisualFormat:(NSString *)visualFormat variableBindings:(NSDictionary *)variableBindings;
 
 @end
