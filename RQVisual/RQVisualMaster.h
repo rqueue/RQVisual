@@ -31,7 +31,7 @@
 
            - The last row and the bottom of its superview
 
-       These values will always be 0.0 unless otherwise specified in the visual format.
+       These values will be 0.0 unless otherwise specified in the visual format using either `-` or a custom value.
  @param verticalPadding The default spacing to use between rows.
  */
 + (void)setDefaultVerticalPaddig:(CGFloat)verticalPadding;
@@ -45,7 +45,7 @@
 
            - The last view in a row row and the right edge of its superview
 
-       These values will always be 0.0 unless otherwise specified in the visual format.
+       These values will be 0.0 unless otherwise specified in the visual format using either `-` or a custom value.
  @param horizontalPadding The default spacing to use between views in the same row.
  */
 + (void)setDefaultHorizontalPadding:(CGFloat)horizontalPadding;
