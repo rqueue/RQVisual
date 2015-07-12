@@ -11,7 +11,7 @@ Auto Layout's Visual Format Language certaintly cuts down on the lines of code n
 ## Examples
 
 For all of the following examples you can either of the following methods:
-```
+```Objective-C
 + (UIView *)viewFromVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings;
 + (void)addSubviewsToView:(UIView *)containerView usingVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings;
 ``` 
@@ -24,7 +24,7 @@ Suppose I want to create a view with a `UIImageView` with a fixed width of 50.0 
 |[imageView][       label        ]|
 ```
 Using Visual we would do:
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][label]"]
                                      rowSpacingVisualFormat:nil
                                            variableBindings:@{ @"imageView": imageView,
@@ -41,7 +41,7 @@ This looks very similar to just using NSLayoutConstraint's `+ constraintsWithVis
 If the `containerView` is resized, the `label` will stretch in width and both the `imageView` and `label` will stretch in height. 
 
 If we wanted to fix the height of these views, we would simply add a specific height to the end of the visual format:
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][label](60)"]
                                      rowSpacingVisualFormat:nil
                                            variableBindings:@{ @"imageView": imageView,
@@ -55,7 +55,7 @@ One thing to note is that the `containerView` here will be returned with a frame
 ### Ex. 2 - Customizing spacing of views within the same row
 
 Spacing between items in a row can be applied in the same way as Auto Layout's Visual Format Language:
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"|-(30)-[imageView(50)]-(40)-[label](60)"]
                                      rowSpacingVisualFormat:nil
                                            variableBindings:@{ @"imageView": imageView,
@@ -67,7 +67,7 @@ Any unspecified spacing will use the default values which are `10` for between t
 ### Ex. 3 - Constraining views in the same row to have equal widths
 
 Specfying that views in the same row should have equal widths can be done too:
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(==)][label(==)](60)"]
                                      rowSpacingVisualFormat:nil
                                            variableBindings:@{ @"imageView": imageView,
@@ -83,7 +83,7 @@ If you want to center some views or pin some views to certain sides, you can use
 |[imageView]     [label]     [button]|
 ```
 We would do the following:
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)<][label(50)<>][button(50)>](60)"]
                                      rowSpacingVisualFormat:nil
                                            variableBindings:@{ @"imageView": imageView,
@@ -97,7 +97,7 @@ Mutiple views can also be centered together such as :
 |          [imageview][label]           |
 ```
 Just use the `<>` syntax for both views:
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)<>][label(50)<>](60)"]
                                      rowSpacingVisualFormat:nil
                                            variableBindings:@{ @"imageView": imageView,
@@ -116,7 +116,7 @@ Making views with multiple rows is just as easy. Suppose we want the same view a
 ```
 With Visual this would be:
 
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][label](60)",
                                                               @"[textView]"]
                                      rowSpacingVisualFormat:nil
@@ -128,7 +128,7 @@ UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][
 Here we have all of the same implicit constraints added horizontally and vertically as in Ex. 1, except now there is also vertical padding between the `textView` and the `imageView`/`label`. The default vertical padding is `10.0` as well.
 
 If we want to customize the spacing between rows, we could do the following:
-```
+```Objective-C
 UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"r1:[imageView(50)][label](60)",
                                                               @"r2:[textView]"]
                                      rowSpacingVisualFormat:@"|-5-[r1]-5-[r2]-15-|"
