@@ -1,4 +1,5 @@
 #import "RQVisualFormatConverter.h"
+#import "RQVisualMaster.h"
 #import "NSString+Parse.h"
 #import "RQVisualItem.h"
 #import "RQVisualSpacing.h"
@@ -38,9 +39,25 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
 }
 
 + (NSArray *)visualSpacingsForVisualFormat:(NSString *)visualFormat {
+    NSMutableString *modifiedVisualFormat = [visualFormat mutableCopy];
+    [modifiedVisualFormat replaceOccurrencesOfString:@"]-["
+                                          withString:[NSString stringWithFormat:@"]-%f-[", [RQVisualMaster defaultHorizontalPadding]]
+                                             options:0
+                                               range:NSMakeRange(0, [modifiedVisualFormat length])];
+
+    [modifiedVisualFormat replaceOccurrencesOfString:@"|-["
+                                          withString:[NSString stringWithFormat:@"|-%f-[", [RQVisualMaster defaultHorizontalPadding]]
+                                             options:0
+                                               range:NSMakeRange(0, [modifiedVisualFormat length])];
+
+    [modifiedVisualFormat replaceOccurrencesOfString:@"]-|"
+                                          withString:[NSString stringWithFormat:@"]-%f-|", [RQVisualMaster defaultHorizontalPadding]]
+                                             options:0
+                                               range:NSMakeRange(0, [modifiedVisualFormat length])];
+
     NSMutableArray *visualSpacings = [NSMutableArray array];
     NSString *pattern = [NSString stringWithFormat:@"(?:\\||(?:%@))-(?:(?:([\\d\\.]+))|(?:\\(([\\d\\.]+)\\)))-(?:\\||(?:%@))", kVisualFormatConverterVisualSpacingItemVisualFormat, kVisualFormatConverterVisualSpacingItemVisualFormat];
-    NSString *formatRemaining = [visualFormat copy];
+    NSString *formatRemaining = [modifiedVisualFormat copy];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
 
     while ([formatRemaining length] > 0) {

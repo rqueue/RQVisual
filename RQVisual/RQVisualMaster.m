@@ -29,6 +29,13 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     return visualMaster;
 }
 
++ (CGFloat)defaultHorizontalPadding {
+    return [[RQVisualMaster sharedInstance] defaultHorizontalPadding];
+}
++ (CGFloat)defaultVerticalPadding {
+    return [[RQVisualMaster sharedInstance] defaultVerticalPadding];
+}
+
 + (void)setDefaultVerticalPaddig:(CGFloat)verticalPadding {
     RQVisualMaster *vm = [RQVisualMaster sharedInstance];
     vm.defaultVerticalPadding = verticalPadding;
@@ -63,7 +70,6 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     NSMutableArray *visualRowSpacings = [NSMutableArray arrayWithArray:[RQVisualFormatConverter visualSpacingsForVisualFormat:rowSpacingVisualFormat]];
     RQVisualSpacing *visualRowSpacing = [visualRowSpacings pop];
     for (NSUInteger row = 0; row < [visualItemsRows count]; row++) {
-        CGFloat defaultHorizontalPadding = [RQVisualMaster sharedInstance].defaultHorizontalPadding;
         CGFloat defaultVerticalPadding = [RQVisualMaster sharedInstance].defaultVerticalPadding;
 
         NSMutableArray *visualItemSpacingsForRow = [visualItemSpacings[row] mutableCopy];
@@ -232,7 +238,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 NSDictionary *variables = @{visualItem.viewName: visualItem.view};
                 NSString *visual = [NSString stringWithFormat:@"H:%@", visualItem.visualFormat];
 
-                CGFloat spacing = defaultHorizontalPadding;
+                CGFloat spacing = 0.0;
                 if ([visualItemSpacing isSpacingForFirstItemLabel:leftVisualItem.viewName secondItemLabel:visualItem.viewName]) {
                     spacing = visualItemSpacing.spacing;
                     visualItemSpacing = [visualItemSpacingsForRow pop];
@@ -254,7 +260,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                 [containerView addConstraint:constraint];
                 visualItem.leftConstraint = constraint;
                 leftVisualItem.rightConstraint = constraint;
-                rowWidth += defaultHorizontalPadding;
+                rowWidth += spacing;
             }
 
             if (i == [visualItems count] - 1) {

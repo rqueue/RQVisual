@@ -11,6 +11,18 @@
 @interface RQVisualMaster : NSObject
 
 /**
+ The default padding used between views in the same row.
+ @return CGFloat Default padding between views in the same row.
+ */
++ (CGFloat)defaultHorizontalPadding;
+
+/**
+ The default padding used between rows.
+ @return CGFloat Default padding between rows.
+ */
++ (CGFloat)defaultVerticalPadding;
+
+/**
  Sets the spacing that will be used between rows if none is provided in the visual format.
 
  Note: The default vertical spacing does not affect the spacing between: 
