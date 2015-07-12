@@ -17,7 +17,7 @@ For all of the following examples you can either of the following methods:
 ``` 
 The first method will return your views in a new container view and the second method will add your views to an existing view.
 
-### Ex. 1
+### Ex. 1 - Basic layout
 
 Suppose I want to create a view with a `UIImageView` with a fixed width of 50.0 on the left and a `UILabel` of dynamic width to its right. Something like this:
 ```
@@ -52,7 +52,7 @@ Now, both the `imageView` and `label` will be constrained to a height of `60`.
 
 One thing to note is that the `containerView` here will be returned with a frame size of its minimum possible size without breaking the constraints. For the above example this means `50 x 60` since the label has a dynamic width and is allowed to have a width of `0.0`.
 
-### Ex. 2
+### Ex. 2 - Customizing spacing of views within the same row
 
 Spacing between items in a row can be applied in the same way as Auto Layout's Visual Format Language:
 ```
@@ -64,7 +64,7 @@ UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"|-(30)-[imageVie
 ```
 Any unspecified spacing will use the default values which are `10` for between two items (if you haven't set your own default value) and `0` for items on the ends with their superview.
 
-### Ex. 3
+### Ex. 3 - Constraining views in the same row to have equal widths
 
 Specfying that views in the same row should have equal widths can be done too:
 ```
@@ -76,7 +76,7 @@ UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(==)][
 ```
 Here `imageView` and `label` will have equal width constraints and both have a height of `60` (the height constraint is optional of course).
 
-### Ex. 4
+### Ex. 4 - Centering and pinning views in a row
 
 If you want to center some views or pin some views to certain sides, you can use `<` to specify pinning to the left, `>` to specify pinning to the right, and `<>` for centering. To generate a view like this:
 ```
@@ -107,7 +107,7 @@ UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)<>
 
 Note that for these examples of pinning and centering views you must specify width constraints on your views. This is because if a view is allowed to stretch in width, it doesn't make sense to pin/center it.
 
-### Ex. 5
+### Ex. 5 - Multiple rows
 
 Making views with multiple rows is just as easy. Suppose we want the same view as in Ex. 1, but below it we want a `UITextView`.
 ```
