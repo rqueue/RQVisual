@@ -40,7 +40,8 @@
 
 /**
  Creates a UIView containing the given views with all horizontal and vertical constraints as specified in the visual formats.
- @see https://github.com/rqueue/RQVisual/wiki for more information on the visual format syntax
+ @see https://github.com/rqueue/RQVisual/wiki/Documentation for more information on the visual format syntax
+ @see https://github.com/rqueue/RQVisual for examples
  @param visualFormats NSArray of visual formats representing the layout of each row. The visual format strings should be ordered from the topmost to bottommost row.
  @param rowSpacingVisualFormat NSString specifying the spacing between the rows passed in as `visualFormats`.
  @param variableBindings NSDictionary mapping the view names used in `visualFormats` to the views themselves. See the RQVisualDictionaryOfVariableBindings macro to more easily create variable bindings.
@@ -50,7 +51,8 @@
 
 /**
  Adds the given views to a given container view with all horizontal and vertical constraints as specified in the visual formats.
- @see https://github.com/rqueue/RQVisual/wiki for more information on the visual format syntax
+ @see https://github.com/rqueue/RQVisual/wiki/Documentation for more information on the visual format syntax
+ @see https://github.com/rqueue/RQVisual for examples
  @param containerView UIView to add the views to.
  @param visualFormats NSArray of visual formats representing the layout of each row. The visual format strings should be ordered from the topmost to bottommost row.
  @param rowSpacingVisualFormat NSString specifying the spacing between the rows passed in as `visualFormats`.
