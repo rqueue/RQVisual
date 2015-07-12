@@ -15,6 +15,7 @@
 		94A1627C1AE43217001C05FF /* NSString+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A1627B1AE43217001C05FF /* NSString+Parse.m */; };
 		94A162811AE43562001C05FF /* RQVisualFormatConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A162801AE43562001C05FF /* RQVisualFormatConverter.m */; };
 		94BE335F1B4F905B009B30C4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE335E1B4F905B009B30C4 /* Info.plist */; };
+		94F743061B522D95001EDDC8 /* RQVisualMasterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F743051B522D95001EDDC8 /* RQVisualMasterHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		94A162801AE43562001C05FF /* RQVisualFormatConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RQVisualFormatConverter.m; sourceTree = "<group>"; };
 		94BE335E1B4F905B009B30C4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94EE64D11AE36E23009AF917 /* RQVisual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RQVisual.h; sourceTree = "<group>"; };
+		94F743041B522D95001EDDC8 /* RQVisualMasterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RQVisualMasterHelper.h; sourceTree = "<group>"; };
+		94F743051B522D95001EDDC8 /* RQVisualMasterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RQVisualMasterHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,7 @@
 		94560C1A1AE36668006AF9F0 /* RQVisual */ = {
 			isa = PBXGroup;
 			children = (
+				94F743031B522D3D001EDDC8 /* Helpers */,
 				94A1627D1AE43521001C05FF /* Entities */,
 				94560C3E1AE366DB006AF9F0 /* Categories */,
 				94EE64D11AE36E23009AF917 /* RQVisual.h */,
@@ -145,6 +149,15 @@
 				94560C371AE36687006AF9F0 /* RQVisualSpacing.m */,
 			);
 			name = Entities;
+			sourceTree = "<group>";
+		};
+		94F743031B522D3D001EDDC8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				94F743041B522D95001EDDC8 /* RQVisualMasterHelper.h */,
+				94F743051B522D95001EDDC8 /* RQVisualMasterHelper.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94F743061B522D95001EDDC8 /* RQVisualMasterHelper.m in Sources */,
 				94560C3D1AE36687006AF9F0 /* NSMutableArray+Stack.m in Sources */,
 				94A1627C1AE43217001C05FF /* NSString+Parse.m in Sources */,
 				94560C3C1AE36687006AF9F0 /* RQVisualSpacing.m in Sources */,

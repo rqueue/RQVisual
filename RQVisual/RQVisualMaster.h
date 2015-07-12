@@ -1,5 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "RQVisualMasterHelper.h"
+
+#define RQVisualDictionaryOfVariableBindings(...) [RQVisualMasterHelper dictionaryOfVariableBindings:NSDictionaryOfVariableBindings(__VA_ARGS__)]
 
 @interface RQVisualMaster : NSObject
 
