@@ -1,8 +1,6 @@
-# Visual
+# RQVisual
 
-**Disclaimer:** Still in development
-
-Visual is a tool for easily laying out views in code using visual formats similar to Auto Layout's Visual Format Language. All of the views are laid out using Auto Layout constraints so you get all the benefits of Auto Layout without the verbose NSLayoutConstraint syntax.
+RQVisual is a tool for easily laying out views in code using visual formats similar to Auto Layout's Visual Format Language. All of the views are laid out using Auto Layout constraints so you get all the benefits of Auto Layout without the verbose NSLayoutConstraint syntax.
 
 ## Why not just use Auto Layout's Visual Format Language?
 
@@ -144,3 +142,14 @@ Here the vertical spacing will be constructed as you would expect:
 * The second row will be `15.0` points from the bottom of its superview's bottom.
 
 To specify custom padding between rows, you must add labels to the rows by preceding the visual format string with a name for that row and a colon. The name can be anything as long as it matches the variables in the `rowSpacingVisualFormat`. The `rowSpacingVisualFormat` string is composed in the same way as Auto Layout's Visual Format Language except instead of placing views between square brackets you place row labels.
+
+### Ex. 6 - Adding spacer views
+
+Sometimes you might want to include a spacer view that behaves like a view but is invisible to the user. For this, you can use the `_spacer` keyword:
+```Objective-C
+UIView *containerView = [VisualMaster viewFromVisualFormats:@[@"[imageView(50)][_spacer]"]
+                                     rowSpacingVisualFormat:nil
+                                           variableBindings:@{ @"imageView": imageView }];
+
+```
+This will implicitly add an invisible view for you next to the `imageView`. Note that here it would be better to instead pin the `imageView` to the left using `@"[imageView(50)<]"` or ommit the positioning syntax and just use `@"[imageView(50)]"` as they all have the same visual result.
