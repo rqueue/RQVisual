@@ -39,6 +39,7 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
 }
 
 + (NSArray *)visualSpacingsForVisualFormat:(NSString *)visualFormat {
+    visualFormat = [self visualFormatWithoutHeightStringForVisualFormat:visualFormat];
     NSMutableString *modifiedVisualFormat = [visualFormat mutableCopy];
     [modifiedVisualFormat replaceOccurrencesOfString:@"]-["
                                           withString:[NSString stringWithFormat:@"]-%f-[", [RQVisualMaster defaultHorizontalPadding]]
@@ -170,7 +171,11 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
 }
 
 + (NSString *)heightStringForVisualFormat:(NSString *)visualFormat {
-    NSString *heightPattern = @"\\[.+\\](?:\\(([\\d\\.]+)\\))?";
+    if (!visualFormat) {
+        return nil;
+    }
+
+    NSString *heightPattern = @"(?:\\(([\\d\\.]+)\\))?$";
     NSRegularExpression *heightRegex = [NSRegularExpression regularExpressionWithPattern:heightPattern options:0 error:nil];
     NSTextCheckingResult *heightMatch = [heightRegex firstMatchInString:visualFormat options:0 range:NSMakeRange(0, [visualFormat length])];
     if (heightMatch) {
@@ -180,6 +185,16 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
         }
     }
     return nil;
+}
+
++ (NSString *)visualFormatWithoutHeightStringForVisualFormat:(NSString *)visualFormat {
+    NSString *heightString = [self heightStringForVisualFormat:visualFormat];
+    if (!heightString) {
+        return visualFormat;
+    }
+
+    NSInteger heightStringStartIndex = [visualFormat length] - [heightString length] - 2;
+    return [visualFormat substringToIndex:heightStringStartIndex];
 }
 
 + (NSString *)rowLabelForVisualFormat:(NSString *)visualFormat {
