@@ -320,11 +320,13 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
     }
 
     if ([centeredItems count] > 0) {
-        CGFloat defaultHorizontalPadding = [RQVisualMaster sharedInstance].defaultHorizontalPadding;
-        CGFloat horizontalPadding = ([centeredItems count] - 1) * defaultHorizontalPadding;
-        CGFloat totalWidth = horizontalPadding;
-        for (RQVisualItem *visualItem in centeredItems) {
+        CGFloat totalWidth = 0;
+        for (NSInteger i = 0; i < [centeredItems count]; i++) {
+            RQVisualItem *visualItem = centeredItems[i];
             totalWidth += visualItem.width;
+            if (i < [centeredItems count] - 1) {
+                totalWidth += visualItem.rightConstraint.constant;
+            }
         }
 
         CGFloat offsetFromCenter = -totalWidth / 2.0;
@@ -337,7 +339,7 @@ static CGFloat const kVisualMasterHorizontalPadding = 10.0;
                                                                       attribute:NSLayoutAttributeCenterX
                                                                      multiplier:1.0
                                                                        constant:offsetFromCenter]];
-            offsetFromCenter += visualItem.width + defaultHorizontalPadding;
+            offsetFromCenter += visualItem.width + visualItem.rightConstraint.constant;
         }
     }
 }

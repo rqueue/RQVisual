@@ -5,7 +5,7 @@
 
 static NSString * const kVisualFormatConverterEqualWidthSyntax = @"(==)";
 static NSString *const kVisualFormatConverterVisualItemVisualFormat = @"\\[(\\w+)(\\(([\\d\\.=]+)\\))?([<>]+)?\\]";
-static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\\[(\\w+)(?:\\((?:[\\d\\.=]+)\\))?\\]";
+static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\\[(\\w+)(?:\\((?:[\\d\\.=]+)\\))?(?:[<>]+)?\\]";
 
 @implementation RQVisualFormatConverter
 
