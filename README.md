@@ -9,7 +9,7 @@ Visual is a tool for easily laying out views in code using visual formats simila
 Auto Layout's Visual Format Language certaintly cuts down on the lines of code needed to add multiple constraints to a view, but the motivation behind Visual was to simplify this even more. With Visual it's possible to layout your entire view with a single method call (depending on how complicated your view is of course). Implicit padding between views is also added and can be optionally overidden or configured to a specific value. This enables a "standard" spacing to be applied between views automatically without having to specify it in your visual format.
 
 ## Examples
-b
+
 For all of the following examples you can either of the following methods:
 ```
 + (UIView *)viewFromVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings;
