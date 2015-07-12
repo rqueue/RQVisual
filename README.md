@@ -9,7 +9,7 @@ Visual is a tool for easily laying out views in code using visual formats simila
 Auto Layout's Visual Format Language certaintly cuts down on the lines of code needed to add multiple constraints to a view, but the motivation behind Visual was to simplify this even more. With Visual it's possible to layout your entire view with a single method call (depending on how complicated your view is of course). Implicit padding between views is also added and can be optionally overidden or configured to a specific value. This enables a "standard" spacing to be applied between views automatically without having to specify it in your visual format.
 
 ## Examples
-
+b
 For all of the following examples you can either of the following methods:
 ```
 + (UIView *)viewFromVisualFormats:(NSArray *)visualFormats rowSpacingVisualFormat:(NSString *)rowSpacingVisualFormat variableBindings:(NSDictionary *)variableBindings;
@@ -141,6 +141,6 @@ Here the vertical spacing will be constructed as you would expect:
 
 * The first row (`r1`) will be `5.0` points from its superview's top.
 * The first row and second row (`r2`) will be `5.0` points apart.
-* The second row will be `15.0` points from the bototm of its superview's bottom.
+* The second row will be `15.0` points from the bottom of its superview's bottom.
 
 To specify custom padding between rows, you must add labels to the rows by preceding the visual format string with a name for that row and a colon. The name can be anything as long as it matches the variables in the `rowSpacingVisualFormat`. The `rowSpacingVisualFormat` string is composed in the same way as Auto Layout's Visual Format Language except instead of placing views between square brackets you place row labels.
