@@ -39,7 +39,7 @@ static NSString *const kVisualFormatConverterVisualSpacingItemVisualFormat = @"\
 
 + (NSArray *)visualSpacingsForVisualFormat:(NSString *)visualFormat {
     NSMutableArray *visualSpacings = [NSMutableArray array];
-    NSString *pattern = [NSString stringWithFormat:@"(?:\\||(?:%@))-(?:(?:(\\d+))|(?:\\((\\d+)\\)))-(?:\\||(?:%@))", kVisualFormatConverterVisualSpacingItemVisualFormat, kVisualFormatConverterVisualSpacingItemVisualFormat];
+    NSString *pattern = [NSString stringWithFormat:@"(?:\\||(?:%@))-(?:(?:([\\d\\.]+))|(?:\\(([\\d\\.]+)\\)))-(?:\\||(?:%@))", kVisualFormatConverterVisualSpacingItemVisualFormat, kVisualFormatConverterVisualSpacingItemVisualFormat];
     NSString *formatRemaining = [visualFormat copy];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
 
